@@ -1,6 +1,8 @@
 package com.nurpray.app.feature.settings
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import com.nurpray.app.data.astronomical.AsrJuristicMethod
 import com.nurpray.app.data.astronomical.CalculationParameters
 import com.nurpray.app.data.astronomical.HighLatitudeRule
@@ -58,4 +60,60 @@ class SettingsViewModel : ViewModel() {
     fun toggleGps(enabled: Boolean) {
         _uiState.value = _uiState.value.copy(isGpsEnabled = enabled)
     }
+
+    // --- In-App Auto-Updater Logic ---
+    private val updateManager = com.nurpray.app.core.updater.AppUpdateManager()
+
+    private val _updateState = MutableStateFlow<UpdateUiState>(UpdateUiState.Idle)
+    val updateState: StateFlow<UpdateUiState> = _updateState.asStateFlow()
+
+    fun checkForUpdates() {
+        viewModelScope.launch {
+            _updateState.value = UpdateUiState.Checking
+            when (val result = updateManager.checkForUpdates()) {
+                is com.nurpray.app.core.updater.UpdateCheckResult.UpdateAvailable -> {
+                    _updateState.value = UpdateUiState.Available(
+                        version = result.latestVersion,
+                        notes = result.releaseNotes,
+                        url = result.downloadUrl,
+                        sizeMb = result.apkSizeMb
+                    )
+                }
+                is com.nurpray.app.core.updater.UpdateCheckResult.UpToDate -> {
+                    _updateState.value = UpdateUiState.UpToDate
+                }
+                is com.nurpray.app.core.updater.UpdateCheckResult.Error -> {
+                    _updateState.value = UpdateUiState.Error(result.message)
+                }
+            }
+        }
+    }
+
+    fun downloadAndInstall(context: android.content.Context, url: String) {
+        viewModelScope.launch {
+            _updateState.value = UpdateUiState.Downloading(0f)
+            val result = updateManager.downloadAndInstallApk(
+                context = context,
+                downloadUrl = url,
+                onProgress = { progress ->
+                    _updateState.value = UpdateUiState.Downloading(progress)
+                }
+            )
+            if (result.isFailure) {
+                _updateState.value = UpdateUiState.Error(
+                    result.exceptionOrNull()?.localizedMessage ?: "Errore download APK"
+                )
+            }
+        }
+    }
 }
+
+sealed class UpdateUiState {
+    data object Idle : UpdateUiState()
+    data object Checking : UpdateUiState()
+    data class Available(val version: String, val notes: String, val url: String, val sizeMb: Double) : UpdateUiState()
+    data class Downloading(val progress: Float) : UpdateUiState()
+    data object UpToDate : UpdateUiState()
+    data class Error(val message: String) : UpdateUiState()
+}
+

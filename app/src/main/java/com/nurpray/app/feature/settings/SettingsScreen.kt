@@ -18,6 +18,8 @@ import com.nurpray.app.data.astronomical.PrayerMethod
 
 import com.nurpray.app.core.designsystem.LiquidBackground
 import com.nurpray.app.core.designsystem.LiquidGlassCard
+import com.nurpray.app.core.designsystem.AmberGold
+import com.nurpray.app.core.designsystem.EmeraldLight
 import androidx.compose.ui.graphics.Color
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -180,6 +182,136 @@ fun SettingsScreen(
                     }
                 }
 
+                // In-App Auto-Updater Section
+                item {
+                    val context = androidx.compose.ui.platform.LocalContext.current
+                    val updateState by viewModel.updateState.collectAsState()
+
+                    LiquidGlassCard(
+                        shape = RoundedCornerShape(26.dp),
+                        isHighlighted = updateState is UpdateUiState.Available,
+                        highlightColor = AmberGold
+                    ) {
+                        Column(modifier = Modifier.padding(8.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = "Aggiornamenti Automatici",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                    Text(
+                                        text = "Versione corrente: ${com.nurpray.app.BuildConfig.VERSION_NAME}",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+
+                                if (updateState is UpdateUiState.Checking) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(24.dp),
+                                        strokeWidth = 2.5.dp,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                } else {
+                                    Button(
+                                        onClick = { viewModel.checkForUpdates() },
+                                        shape = RoundedCornerShape(12.dp),
+                                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                                    ) {
+                                        Text(
+                                            text = "Controlla",
+                                            style = MaterialTheme.typography.labelMedium,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                                        )
+                                    }
+                                }
+                            }
+
+                            when (val state = updateState) {
+                                is UpdateUiState.Available -> {
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    Surface(
+                                        shape = RoundedCornerShape(12.dp),
+                                        color = AmberGold.copy(alpha = 0.2f),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Column(modifier = Modifier.padding(12.dp)) {
+                                            Text(
+                                                text = "🎉 Nuova versione v${state.version} disponibile!",
+                                                style = MaterialTheme.typography.titleSmall,
+                                                fontWeight = FontWeight.Bold,
+                                                color = AmberGold
+                                            )
+                                            Spacer(modifier = Modifier.height(4.dp))
+                                            Text(
+                                                text = "Dimensione: ${String.format("%.1f", state.sizeMb)} MB",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurface
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            Button(
+                                                onClick = { viewModel.downloadAndInstall(context, state.url) },
+                                                shape = RoundedCornerShape(10.dp),
+                                                colors = ButtonDefaults.buttonColors(containerColor = AmberGold),
+                                                modifier = Modifier.fillMaxWidth()
+                                            ) {
+                                                Text(
+                                                    text = "Scarica e Installa Ora",
+                                                    fontWeight = FontWeight.Bold,
+                                                    color = Color.Black
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                                is UpdateUiState.Downloading -> {
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    Column(modifier = Modifier.fillMaxWidth()) {
+                                        Text(
+                                            text = "Download aggiornamento: ${(state.progress * 100).toInt()}%",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                        LinearProgressIndicator(
+                                            progress = { state.progress },
+                                            modifier = Modifier.fillMaxWidth().height(8.dp),
+                                            color = EmeraldLight,
+                                            trackColor = Color.White.copy(alpha = 0.2f)
+                                        )
+                                    }
+                                }
+                                is UpdateUiState.UpToDate -> {
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "✨ NurPray è aggiornato all'ultima versione disponibile!",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = EmeraldLight,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+                                is UpdateUiState.Error -> {
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "⚠️ ${state.message}",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                                else -> Unit
+                            }
+                        }
+                    }
+                }
+
                 // About & Zero Trackers Banner
                 item {
                     LiquidGlassCard(
@@ -201,7 +333,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "Versione 1.3.0 • Design Liquid Glass con animazioni a 120Hz",
+                                text = "Versione ${com.nurpray.app.BuildConfig.VERSION_NAME} • Design Liquid Glass con animazioni a 120Hz",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.primary
                             )

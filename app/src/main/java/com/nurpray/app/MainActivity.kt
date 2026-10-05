@@ -33,6 +33,7 @@ import com.nurpray.app.feature.settings.SettingsViewModel
 import com.nurpray.app.feature.tasbih.TasbihScreen
 import com.nurpray.app.feature.tasbih.TasbihViewModel
 
+import com.nurpray.app.feature.dua.DuaScreen
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 
 enum class AppDestination(val label: String, val icon: ImageVector) {
@@ -40,6 +41,7 @@ enum class AppDestination(val label: String, val icon: ImageVector) {
     QIBLA("Qibla", Icons.Default.Explore),
     QURAN("Corano", Icons.AutoMirrored.Filled.MenuBook),
     TASBIH("Tasbih", Icons.Default.Fingerprint),
+    DUA("Du'a", Icons.Default.Favorite),
     SETTINGS("Impostazioni", Icons.Default.Settings)
 }
 
@@ -105,6 +107,7 @@ class MainActivity : ComponentActivity() {
                             onNavigateToQibla = { currentDestination = AppDestination.QIBLA },
                             onNavigateToTasbih = { currentDestination = AppDestination.TASBIH },
                             onNavigateToQuran = { currentDestination = AppDestination.QURAN },
+                            onNavigateToDua = { currentDestination = AppDestination.DUA },
                             onNavigateToSettings = { currentDestination = AppDestination.SETTINGS },
                             modifier = Modifier.fillMaxSize()
                         )
@@ -118,6 +121,10 @@ class MainActivity : ComponentActivity() {
                         )
                         AppDestination.TASBIH -> TasbihScreen(
                             viewModel = tasbihViewModel,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                        AppDestination.DUA -> DuaScreen(
+                            onBack = { currentDestination = AppDestination.HOME },
                             modifier = Modifier.fillMaxSize()
                         )
                         AppDestination.SETTINGS -> SettingsScreen(

@@ -42,6 +42,7 @@ fun HomeScreen(
     onNavigateToQibla: () -> Unit,
     onNavigateToTasbih: () -> Unit,
     onNavigateToQuran: () -> Unit,
+    onNavigateToDua: () -> Unit,
     onNavigateToSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -176,6 +177,13 @@ fun HomeScreen(
                     }
                 }
 
+                // Fasting & Ramadan Tracker Card (Imsak & Iftar)
+                item {
+                    schedule?.let { sched ->
+                        FastingTrackerCard(schedule = sched)
+                    }
+                }
+
                 // Hero Prayer Card with Liquid Progress Arc and Countdown
                 item {
                     schedule?.let { sched ->
@@ -201,6 +209,10 @@ fun HomeScreen(
                         onQuranClick = {
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                             onNavigateToQuran()
+                        },
+                        onDuaClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            onNavigateToDua()
                         }
                     )
                 }
@@ -318,15 +330,97 @@ fun HeroCountdownCard(
 }
 
 @Composable
+fun FastingTrackerCard(
+    schedule: com.nurpray.app.domain.model.TodayPrayerSchedule,
+    modifier: Modifier = Modifier
+) {
+    val fajr = schedule.prayers.firstOrNull { it.type == PrayerType.FAJR }?.time
+    val maghrib = schedule.prayers.firstOrNull { it.type == PrayerType.MAGHRIB }?.time
+
+    if (fajr != null && maghrib != null) {
+        val imsakTime = fajr.minusMinutes(10)
+        val now = java.time.LocalTime.now()
+
+        val isFastingNow = now.isAfter(fajr) && now.isBefore(maghrib)
+
+        val countdownLabel = if (isFastingNow) {
+            val mins = java.time.Duration.between(now, maghrib).toMinutes()
+            val h = mins / 60
+            val m = mins % 60
+            "Iftar (Rottura digiuno) tra ${h}h ${m}m"
+        } else if (now.isBefore(imsakTime)) {
+            val mins = java.time.Duration.between(now, imsakTime).toMinutes()
+            val h = mins / 60
+            val m = mins % 60
+            "Imsak (Termine Suhoor) tra ${h}h ${m}m"
+        } else {
+            "Digiuno completato per oggi ✨"
+        }
+
+        LiquidGlassCard(
+            modifier = modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(22.dp),
+            isHighlighted = isFastingNow,
+            highlightColor = AmberGold
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 6.dp, vertical = 2.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "🌙",
+                        fontSize = 22.sp
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Column {
+                        Text(
+                            text = "Digiuno & Iftar",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = if (isFastingNow) AmberGold else MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = countdownLabel,
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(
+                        text = "Imsak: ${imsakTime.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"))}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = "Iftar: ${maghrib.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"))}",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = AmberGold
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun QuickActionsRow(
     onQiblaClick: () -> Unit,
     onTasbihClick: () -> Unit,
     onQuranClick: () -> Unit,
+    onDuaClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         LiquidGlassButton(
             title = "Qibla",
@@ -348,6 +442,13 @@ fun QuickActionsRow(
             onClick = onQuranClick,
             modifier = Modifier.weight(1f),
             accentColor = Color(0xFF64B5F6)
+        )
+        LiquidGlassButton(
+            title = "Du'a",
+            icon = Icons.Default.Favorite,
+            onClick = onDuaClick,
+            modifier = Modifier.weight(1f),
+            accentColor = Color(0xFFE91E63)
         )
     }
 }
