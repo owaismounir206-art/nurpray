@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">NurPray</string>
+    <string name="tagline">Orari di Preghiera, Qibla e Corano Offline</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_qibla">Qibla</string>
+    <string name="nav_quran">Corano</string>
+    <string name="nav_tasbih">Tasbih</string>
+    <string name="nav_settings">Impostazioni</string>
+
+    <!-- Prayers -->
+    <string name="fajr">Fajr</string>
+    <string name="sunrise">Alba (Shuruq)</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="isha">Isha</string>
+
+    <!-- Status -->
+    <string name="next_prayer">Prossima Preghiera</string>
+    <string name="time_remaining">Tempo rimanente</string>
+    <string name="time_passed">Tempo trascorso</string>
+    <string name="qibla_heading">Direzione Mecca</string>
+    <string name="qibla_aligned">Allineato con la Kaaba</string>
+
+    <!-- Notifications -->
+    <string name="adhan_channel_name">Notifiche Adhan</string>
+    <string name="adhan_channel_desc">Avvisi ad alta priorità per l\'inizio dell\'orario di preghiera</string>
+    <string name="pre_adhan_channel_name">Pre-Allarmi Adhan</string>
+    <string name="pre_adhan_channel_desc">Notifiche discrete 10-15 minuti prima della preghiera</string>
+</resources>
