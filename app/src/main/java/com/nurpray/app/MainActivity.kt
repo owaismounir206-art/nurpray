@@ -75,6 +75,13 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        // Sync calculation settings with HomeViewModel
+        lifecycleScope.launch {
+            settingsViewModel.uiState.collect { settings ->
+                homeViewModel.updateCalculationParameters(settings.toCalculationParameters())
+            }
+        }
+
         setContent {
             NurPrayTheme {
                 var currentDestination by remember { mutableStateOf(AppDestination.HOME) }

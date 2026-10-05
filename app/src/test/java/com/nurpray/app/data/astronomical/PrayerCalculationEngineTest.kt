@@ -134,4 +134,121 @@ class PrayerCalculationEngineTest {
         assertTrue("Fajr must be before sunrise even at high latitude", result.fajr.isBefore(result.sunrise))
         assertTrue("Isha must be after maghrib even at high latitude", result.isha.isAfter(result.maghrib))
     }
+
+    @Test
+    fun testPistoiaUcoiiConventionAutumn() {
+        // Pistoia: Lat ~43.93° N, Lon ~10.92° E, Europe/Rome
+        val lat = 43.93
+        val lon = 10.92
+        val zone = ZoneId.of("Europe/Rome")
+        val params = CalculationParameters(
+            method = PrayerMethod.UCOII_ITALY,
+            asrJuristicMethod = AsrJuristicMethod.SHAFI_MALIKI_HANBALI
+        )
+
+        // 1. Test September 20 (late summer rule: Isha = Maghrib + 100 min, Fajr 12°)
+        val sepDate = LocalDate.of(2026, 9, 20)
+        val sepResult = engine.calculatePrayerTimes(sepDate, lat, lon, zone, params)
+
+        assertNotNull(sepResult)
+        // In late September, sunrise in Pistoia is around 07:01-07:05 CEST
+        assertEquals(7, sepResult.sunrise.hour)
+        // Fajr (12° depression) is ~65-67 minutes before sunrise (~05:55-06:00)
+        assertEquals(5, sepResult.fajr.hour)
+        val minutesFajrToSunrise = java.time.Duration.between(sepResult.fajr, sepResult.sunrise).toMinutes()
+        assertTrue("Fajr at 12° should be between 60 and 75 min before sunrise", minutesFajrToSunrise in 60..75)
+
+        // Isha in summer/late Sep is Maghrib + 100 minutes
+        val sepMaghribToIsha = java.time.Duration.between(sepResult.maghrib, sepResult.isha).toMinutes()
+        assertEquals("Isha must be exactly 100 minutes after Maghrib up to late September", 100L, sepMaghribToIsha)
+
+        // 2. Test October 1 (autumn rule: Isha = Maghrib + 90 min)
+        val octDate = LocalDate.of(2026, 10, 1)
+        val octResult = engine.calculatePrayerTimes(octDate, lat, lon, zone, params)
+
+        assertNotNull(octResult)
+        // On October 1st, actual astronomical sunrise in Pistoia is ~07:13-07:15 CEST
+        assertEquals(7, octResult.sunrise.hour)
+        assertTrue("Sunrise on Oct 1 in Pistoia is around 07:13", octResult.sunrise.minute in 10..18)
+
+        // Isha switches to 90 minutes after Maghrib in October
+        val octMaghribToIsha = java.time.Duration.between(octResult.maghrib, octResult.isha).toMinutes()
+        assertEquals("Isha must be 90 minutes after Maghrib starting from late September/October", 90L, octMaghribToIsha)
+
+        // Strict chronological progression
+        assertTrue(octResult.fajr.isBefore(octResult.sunrise))
+        assertTrue(octResult.sunrise.isBefore(octResult.dhuhr))
+        assertTrue(octResult.dhuhr.isBefore(octResult.asr))
+        assertTrue(octResult.asr.isBefore(octResult.maghrib))
+        assertTrue(octResult.maghrib.isBefore(octResult.isha))
+    }
+
+    @Test
+    fun testPrayerAdjustmentsFineTuning() {
+        val date = LocalDate.of(2026, 10, 5)
+        val lat = 43.93
+        val lon = 10.92
+        val zone = ZoneId.of("Europe/Rome")
+
+        val baseParams = CalculationParameters(method = PrayerMethod.UCOII_ITALY)
+        val baseResult = engine.calculatePrayerTimes(date, lat, lon, zone, baseParams)
+
+        val adjustedParams = CalculationParameters(
+            method = PrayerMethod.UCOII_ITALY,
+            adjustments = PrayerAdjustments(
+                fajrMinutes = 2,
+                dhuhrMinutes = 3,
+                asrMinutes = -1,
+                maghribMinutes = 2,
+                ishaMinutes = -5
+            )
+        )
+        val adjustedResult = engine.calculatePrayerTimes(date, lat, lon, zone, adjustedParams)
+
+        assertEquals(baseResult.fajr.plusMinutes(2), adjustedResult.fajr)
+        assertEquals(baseResult.dhuhr.plusMinutes(3), adjustedResult.dhuhr)
+        assertEquals(baseResult.asr.plusMinutes(-1), adjustedResult.asr)
+        assertEquals(baseResult.maghrib.plusMinutes(2), adjustedResult.maghrib)
+        assertEquals(baseResult.isha.plusMinutes(-5), adjustedResult.isha)
+    }
+
+    @Test
+    fun testShiaConventionsUseTwilightForMaghrib() {
+        val date = LocalDate.of(2026, 10, 5)
+        val lat = 35.6892
+        val lon = 51.3890
+        val zone = ZoneId.of("Asia/Tehran")
+
+        val standardParams = CalculationParameters(method = PrayerMethod.MUSLIM_WORLD_LEAGUE)
+        val shiaParams = CalculationParameters(method = PrayerMethod.TEHRAN)
+
+        val standardResult = engine.calculatePrayerTimes(date, lat, lon, zone, standardParams)
+        val shiaResult = engine.calculatePrayerTimes(date, lat, lon, zone, shiaParams)
+
+        // Shia Maghrib is based on twilight angle (4.5°), so it is later than standard sunset Maghrib
+        assertTrue(
+            "Shia Maghrib (twilight) must be after standard sunset Maghrib",
+            shiaResult.maghrib.isAfter(standardResult.maghrib)
+        )
+    }
+
+    @Test
+    fun testAllWorldwideConventionsProduceValidSchedules() {
+        val date = LocalDate.of(2026, 10, 5)
+        val lat = 41.9028
+        val lon = 12.4964
+        val zone = ZoneId.of("Europe/Rome")
+
+        for (method in PrayerMethod.entries) {
+            val params = CalculationParameters(method = method)
+            val result = engine.calculatePrayerTimes(date, lat, lon, zone, params)
+
+            assertNotNull("Result for $method must not be null", result)
+            assertTrue("Fajr before Sunrise for $method", result.fajr.isBefore(result.sunrise))
+            assertTrue("Sunrise before Dhuhr for $method", result.sunrise.isBefore(result.dhuhr))
+            assertTrue("Dhuhr before Asr for $method", result.dhuhr.isBefore(result.asr))
+            assertTrue("Asr before Maghrib for $method", result.asr.isBefore(result.maghrib))
+            assertTrue("Maghrib before Isha for $method", result.maghrib.isBefore(result.isha))
+        }
+    }
 }

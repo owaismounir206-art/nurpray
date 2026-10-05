@@ -212,10 +212,21 @@ fun SettingsScreen(
     if (showMethodDialog) {
         AlertDialog(
             onDismissRequest = { showMethodDialog = false },
-            title = { Text("Seleziona Convenzione") },
+            title = {
+                Text(
+                    text = "Convenzione di Calcolo",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+            },
             text = {
-                Column {
-                    PrayerMethod.values().forEach { method ->
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 420.dp)
+                ) {
+                    items(PrayerMethod.entries.size) { index ->
+                        val method = PrayerMethod.entries[index]
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -234,7 +245,17 @@ fun SettingsScreen(
                                 }
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text(method.title, style = MaterialTheme.typography.bodyMedium)
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = method.title,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = if (method == uiState.selectedMethod) FontWeight.Bold else FontWeight.Normal,
+                                    color = if (method == uiState.selectedMethod) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
+                        if (index < PrayerMethod.entries.size - 1) {
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
                         }
                     }
                 }

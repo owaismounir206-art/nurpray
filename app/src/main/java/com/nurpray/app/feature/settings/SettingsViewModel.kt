@@ -9,19 +9,23 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+import com.nurpray.app.data.astronomical.PrayerAdjustments
+
 data class SettingsUiState(
-    val selectedMethod: PrayerMethod = PrayerMethod.MUSLIM_WORLD_LEAGUE,
+    val selectedMethod: PrayerMethod = PrayerMethod.UCOII_ITALY,
     val selectedAsrMethod: AsrJuristicMethod = AsrJuristicMethod.SHAFI_MALIKI_HANBALI,
     val selectedHighLatitudeRule: HighLatitudeRule = HighLatitudeRule.ANGLE_BASED,
     val preAdhanMinutes: Int = 15,
     val isAutoDndEnabled: Boolean = false,
-    val isGpsEnabled: Boolean = true
+    val isGpsEnabled: Boolean = true,
+    val adjustments: PrayerAdjustments = PrayerAdjustments()
 ) {
     fun toCalculationParameters(): CalculationParameters {
         return CalculationParameters(
             method = selectedMethod,
             asrJuristicMethod = selectedAsrMethod,
-            highLatitudeRule = selectedHighLatitudeRule
+            highLatitudeRule = selectedHighLatitudeRule,
+            adjustments = adjustments
         )
     }
 }

@@ -70,15 +70,30 @@ class PrayerCalculationEngine {
         val rawFajrOffset = calculateHourAngleOffset(latitude, declination, fajrZenith)
         var fajrHours = baseTransitHours - rawFajrOffset
 
-        // Step 7: Maghrib and Isha
-        val maghribHours = sunsetHours + (params.maghribSafetyMinutes / 60.0)
+        // Step 7: Maghrib (Sunset or twilight angle for Shia conventions)
+        val maghribHours: Double = if (params.method.maghribAngle != null) {
+            val maghribZenith = 90.0 + params.method.maghribAngle
+            val rawMaghribOffset = calculateHourAngleOffset(latitude, declination, maghribZenith)
+            baseTransitHours + rawMaghribOffset
+        } else {
+            sunsetHours + (params.maghribSafetyMinutes / 60.0)
+        }
 
+        // Step 8: Isha
         val ishaHours: Double = when {
             params.ishaCustomMinutes != null -> {
                 maghribHours + (params.ishaCustomMinutes / 60.0)
             }
             params.method.ishaMinutesAfterMaghrib != null -> {
-                maghribHours + (params.method.ishaMinutesAfterMaghrib / 60.0)
+                val minutes = if (params.method == PrayerMethod.UCOII_ITALY) {
+                    // UCOII / European Fatwa guidelines:
+                    // 100 min during summer/early autumn (approx May 20 to Sep 26), 90 min in winter
+                    val dayOfYear = date.dayOfYear
+                    if (dayOfYear in 140..269) 100 else 90
+                } else {
+                    params.method.ishaMinutesAfterMaghrib
+                }
+                maghribHours + (minutes / 60.0)
             }
             else -> {
                 val ishaAngle = params.ishaCustomAngle ?: params.method.ishaAngle ?: 17.0
@@ -88,7 +103,7 @@ class PrayerCalculationEngine {
             }
         }
 
-        // Step 8: Apply High Latitude Adjustments if necessary
+        // Step 9: Apply High Latitude Adjustments if necessary
         val nightHours = if (sunsetHours < sunriseHours + 24.0) {
             (24.0 - sunsetHours) + sunriseHours
         } else {
@@ -109,14 +124,22 @@ class PrayerCalculationEngine {
         fajrHours = adjustedFajrAndIsha.first
         val finalIshaHours = adjustedFajrAndIsha.second
 
+        // Apply fine-tuning adjustments (± minutes)
+        val fajrTime = decimalHoursToLocalTime(fajrHours).plusMinutes(params.adjustments.fajrMinutes.toLong())
+        val sunriseTime = decimalHoursToLocalTime(sunriseHours).plusMinutes(params.adjustments.sunriseMinutes.toLong())
+        val dhuhrTime = decimalHoursToLocalTime(dhuhrHours).plusMinutes(params.adjustments.dhuhrMinutes.toLong())
+        val asrTime = decimalHoursToLocalTime(asrHours).plusMinutes(params.adjustments.asrMinutes.toLong())
+        val maghribTime = decimalHoursToLocalTime(maghribHours).plusMinutes(params.adjustments.maghribMinutes.toLong())
+        val ishaTime = decimalHoursToLocalTime(finalIshaHours).plusMinutes(params.adjustments.ishaMinutes.toLong())
+
         return PrayerTimesResult(
             date = date,
-            fajr = decimalHoursToLocalTime(fajrHours),
-            sunrise = decimalHoursToLocalTime(sunriseHours),
-            dhuhr = decimalHoursToLocalTime(dhuhrHours),
-            asr = decimalHoursToLocalTime(asrHours),
-            maghrib = decimalHoursToLocalTime(maghribHours),
-            isha = decimalHoursToLocalTime(finalIshaHours)
+            fajr = fajrTime,
+            sunrise = sunriseTime,
+            dhuhr = dhuhrTime,
+            asr = asrTime,
+            maghrib = maghribTime,
+            isha = ishaTime
         )
     }
 
