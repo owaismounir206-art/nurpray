@@ -14,3 +14,4 @@ Captures/
 .externalNativeBuild
 .cxx
 local.properties
+*.zip

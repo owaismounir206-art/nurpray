@@ -1,8 +1,11 @@
 package com.nurpray.app.feature.tasbih
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -31,6 +34,9 @@ import com.nurpray.app.core.designsystem.AmberGold
 import com.nurpray.app.core.designsystem.EmeraldDeep
 import com.nurpray.app.core.designsystem.EmeraldLight
 
+import com.nurpray.app.core.designsystem.LiquidBackground
+import com.nurpray.app.core.designsystem.LiquidGlassCard
+
 @Composable
 fun TasbihScreen(
     viewModel: TasbihViewModel,
@@ -46,162 +52,170 @@ fun TasbihScreen(
 
     val animatedProgress by animateFloatAsState(
         targetValue = progress,
-        animationSpec = tween(150),
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
         label = "tasbihProgress"
     )
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Top Bar
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+    LiquidBackground(modifier = modifier) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Tasbih Digitale",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-
-            IconButton(onClick = { viewModel.resetActiveCount() }) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = "Azzera contatore",
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Dhikr Selector Chips
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            itemsIndexed(uiState.dhikrList) { index, item ->
-                val isSelected = index == uiState.currentDhikrIndex
-                FilterChip(
-                    selected = isSelected,
-                    onClick = { viewModel.selectDhikr(index) },
-                    label = { Text(item.transliteration) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Dhikr Calligraphy & Translation Card
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            // Top Bar
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = activeDhikr.arabicText,
-                    fontSize = 32.sp,
+                    text = "Tasbih Digitale",
+                    style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.Center
+                    color = MaterialTheme.colorScheme.onBackground
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = activeDhikr.transliteration,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = activeDhikr.translation,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center
-                )
+
+                IconButton(onClick = { viewModel.resetActiveCount() }) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = "Azzera contatore",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
-        }
 
-        Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Touch Anywhere / Large Counter Button
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(32.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null
+            // Dhikr Selector Chips
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                itemsIndexed(uiState.dhikrList) { index, item ->
+                    val isSelected = index == uiState.currentDhikrIndex
+                    FilterChip(
+                        selected = isSelected,
+                        onClick = { viewModel.selectDhikr(index) },
+                        label = { Text(item.transliteration) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Dhikr Calligraphy & Translation Card - Liquid Glass
+            LiquidGlassCard(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(26.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Text(
+                        text = activeDhikr.arabicText,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = activeDhikr.transliteration,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = activeDhikr.translation,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Large Liquid Counter Glass Card
+            LiquidGlassCard(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(36.dp),
+                isHighlighted = true,
+                highlightColor = EmeraldLight,
+                onClick = {
                     val reached = viewModel.incrementCount()
                     if (reached) {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     } else {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     }
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            // Circular Ring
-            Canvas(modifier = Modifier.size(220.dp)) {
-                val strokeWidth = 12.dp.toPx()
-                // Track
-                drawCircle(
-                    color = Color.LightGray.copy(alpha = 0.2f),
-                    radius = size.minDimension / 2 - strokeWidth / 2,
-                    style = Stroke(width = strokeWidth)
-                )
-                // Progress
-                drawArc(
-                    color = EmeraldLight,
-                    startAngle = -90f,
-                    sweepAngle = 360f * animatedProgress,
-                    useCenter = false,
-                    style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-                )
-            }
-
-            // Big Counter Display
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = "${activeDhikr.count}",
-                    style = MaterialTheme.typography.displayLarge,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                if (activeDhikr.target > 0) {
-                    Text(
-                        text = "Obiettivo: ${activeDhikr.target}",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Tocca ovunque",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.outline
-                )
-            }
-        }
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    // Shimmering Circular Ring
+                    Canvas(modifier = Modifier.size(240.dp)) {
+                        val strokeWidth = 14.dp.toPx()
+                        // Track
+                        drawCircle(
+                            color = Color.White.copy(alpha = 0.12f),
+                            radius = size.minDimension / 2 - strokeWidth / 2,
+                            style = Stroke(width = strokeWidth)
+                        )
+                        // Progress Arc
+                        drawArc(
+                            brush = Brush.sweepGradient(
+                                colors = listOf(EmeraldLight, AmberGold, Color(0xFF64B5F6), EmeraldLight)
+                            ),
+                            startAngle = -90f,
+                            sweepAngle = 360f * animatedProgress,
+                            useCenter = false,
+                            style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                        )
+                    }
 
-        Spacer(modifier = Modifier.height(16.dp))
+                    // Big Counter Display
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "${activeDhikr.count}",
+                            style = MaterialTheme.typography.displayLarge,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.White
+                        )
+                        if (activeDhikr.target > 0) {
+                            Text(
+                                text = "Obiettivo: ${activeDhikr.target}",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = AmberGold,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Tocca per contare",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.White.copy(alpha = 0.6f)
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+        }
     }
 }

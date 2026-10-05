@@ -32,6 +32,9 @@ import com.nurpray.app.core.designsystem.EmeraldDeep
 import com.nurpray.app.core.designsystem.EmeraldLight
 import kotlin.math.*
 
+import com.nurpray.app.core.designsystem.LiquidBackground
+import com.nurpray.app.core.designsystem.LiquidGlassCard
+
 @Composable
 fun QiblaScreen(
     viewModel: QiblaViewModel,
@@ -69,28 +72,28 @@ fun QiblaScreen(
         label = "alignedColor"
     )
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        // Header
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Bussola Qibla",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                text = uiState.cityName,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
+    LiquidBackground(modifier = modifier) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            // Header
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "Bussola Qibla",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Text(
+                    text = uiState.cityName,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
 
         // Low accuracy warning
         if (uiState.sensorAccuracy <= SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
@@ -215,87 +218,82 @@ fun QiblaScreen(
             )
         }
 
-        // Info Cards (Azimuth, Alignment, Distance)
-        Card(
+        // Info Cards (Azimuth, Alignment, Distance) - Liquid Glass
+        LiquidGlassCard(
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer
-            )
+            shape = RoundedCornerShape(26.dp),
+            isHighlighted = uiState.bearing.isAligned,
+            highlightColor = EmeraldLight
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Direzione Kaaba",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "${uiState.bearing.qiblaDirectionDegrees.roundToInt()}°",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
-
-                    VerticalDivider(
-                        modifier = Modifier
-                            .height(40.dp)
-                            .width(1.dp)
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "Direzione Kaaba",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Distanza",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "${uiState.bearing.distanceToKaabaKm.roundToInt()} km",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
+                    Text(
+                        text = "${uiState.bearing.qiblaDirectionDegrees.roundToInt()}°",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                VerticalDivider(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .width(1.dp)
+                )
 
-                // Alignment Banner
-                Surface(
-                    color = if (uiState.bearing.isAligned) EmeraldLight.copy(alpha = 0.2f) else MaterialTheme.colorScheme.surfaceContainerHigh,
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.fillMaxWidth()
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "Distanza",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = "${uiState.bearing.distanceToKaabaKm.roundToInt()} km",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Alignment Banner
+            Surface(
+                color = if (uiState.bearing.isAligned) EmeraldLight.copy(alpha = 0.22f) else MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.5f),
+                shape = RoundedCornerShape(14.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    Row(
-                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            imageVector = if (uiState.bearing.isAligned) Icons.Default.CheckCircle else Icons.Default.Explore,
-                            contentDescription = null,
-                            tint = if (uiState.bearing.isAligned) EmeraldLight else MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = if (uiState.bearing.isAligned) "Perfettamente rivolto verso la Kaaba!" else "Ruota il dispositivo verso l'ago dorato",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = if (uiState.bearing.isAligned) FontWeight.Bold else FontWeight.Normal,
-                            color = if (uiState.bearing.isAligned) EmeraldLight else MaterialTheme.colorScheme.onSurfaceVariant,
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                    Icon(
+                        imageVector = if (uiState.bearing.isAligned) Icons.Default.CheckCircle else Icons.Default.Explore,
+                        contentDescription = null,
+                        tint = if (uiState.bearing.isAligned) EmeraldLight else MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = if (uiState.bearing.isAligned) "Perfettamente allineato alla Qibla! 🕋" else "Ruota il dispositivo verso l'indicatore dorato",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = if (uiState.bearing.isAligned) FontWeight.Bold else FontWeight.Normal,
+                        color = if (uiState.bearing.isAligned) EmeraldLight else MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }
     }
+}
 }

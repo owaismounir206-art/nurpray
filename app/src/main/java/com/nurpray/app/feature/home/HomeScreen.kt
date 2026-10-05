@@ -3,6 +3,7 @@ package com.nurpray.app.feature.home
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -64,6 +65,7 @@ fun HomeScreen(
     val isGpsLoading by viewModel.isGpsLoading.collectAsState()
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
                 title = {
@@ -108,32 +110,31 @@ fun HomeScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = Color.Transparent
                 )
             )
         },
         modifier = modifier
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // Hijri Date and Islamic Holy Events Banner
-            item {
-                val hijriDate = remember(schedule?.date) {
-                    schedule?.date?.let { com.nurpray.app.data.astronomical.HijriCalendarHelper.gregorianToHijri(it) }
-                }
+        LiquidBackground {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp)
+            ) {
+                // Hijri Date and Islamic Holy Events Banner
+                item {
+                    val hijriDate = remember(schedule?.date) {
+                        schedule?.date?.let { com.nurpray.app.data.astronomical.HijriCalendarHelper.gregorianToHijri(it) }
+                    }
 
-                hijriDate?.let { hDate ->
-                    Card(
-                        shape = RoundedCornerShape(18.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
+                    hijriDate?.let { hDate ->
+                        LiquidGlassCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(22.dp)
+                        ) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -157,8 +158,8 @@ fun HomeScreen(
                                 Spacer(modifier = Modifier.height(6.dp))
                                 for (event in hDate.specialEvents) {
                                     Surface(
-                                        shape = RoundedCornerShape(8.dp),
-                                        color = AmberGold.copy(alpha = 0.2f),
+                                        shape = RoundedCornerShape(10.dp),
+                                        color = AmberGold.copy(alpha = 0.22f),
                                         modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
                                     ) {
                                         Text(
@@ -174,62 +175,62 @@ fun HomeScreen(
                         }
                     }
                 }
-            }
 
-            // Hero Prayer Card with Arc Progress and Countdown
-            item {
-                schedule?.let { sched ->
-                    HeroCountdownCard(
-                        schedule = sched,
-                        countdown = uiState.formattedCountdown,
-                        gradient = activeGradient
-                    )
-                }
-            }
-
-            // Quick Actions Bar
-            item {
-                QuickActionsRow(
-                    onQiblaClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                        onNavigateToQibla()
-                    },
-                    onTasbihClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                        onNavigateToTasbih()
-                    },
-                    onQuranClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                        onNavigateToQuran()
+                // Hero Prayer Card with Liquid Progress Arc and Countdown
+                item {
+                    schedule?.let { sched ->
+                        HeroCountdownCard(
+                            schedule = sched,
+                            countdown = uiState.formattedCountdown,
+                            gradient = activeGradient
+                        )
                     }
-                )
-            }
+                }
 
-            // Section Header
-            item {
-                Text(
-                    text = "Orari delle Preghiere di Oggi",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }
-
-            // Today's 6 Prayer Cards
-            schedule?.prayers?.let { prayers ->
-                items(prayers) { prayer ->
-                    val isCurrent = prayer.type == schedule.currentPrayer?.type
-                    val isNext = prayer.type == schedule.nextPrayer.type
-                    PrayerTimeCard(
-                        prayer = prayer,
-                        isCurrent = isCurrent,
-                        isNext = isNext
+                // Quick Actions Bar (Liquid Glass Buttons)
+                item {
+                    QuickActionsRow(
+                        onQiblaClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            onNavigateToQibla()
+                        },
+                        onTasbihClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            onNavigateToTasbih()
+                        },
+                        onQuranClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            onNavigateToQuran()
+                        }
                     )
                 }
-            }
 
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
+                // Section Header
+                item {
+                    Text(
+                        text = "Orari delle Preghiere di Oggi",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+
+                // Today's 6 Prayer Cards
+                schedule?.prayers?.let { prayers ->
+                    items(prayers) { prayer ->
+                        val isCurrent = prayer.type == schedule.currentPrayer?.type
+                        val isNext = prayer.type == schedule.nextPrayer.type
+                        PrayerTimeCard(
+                            prayer = prayer,
+                            isCurrent = isCurrent,
+                            isNext = isNext
+                        )
+                    }
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
         }
 
@@ -257,77 +258,59 @@ fun HeroCountdownCard(
     gradient: List<Color>,
     modifier: Modifier = Modifier
 ) {
-    val animatedProgress by animateFloatAsState(
-        targetValue = schedule.progressRatio,
-        animationSpec = tween(durationMillis = 600),
-        label = "arcProgress"
-    )
-
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(240.dp),
-        shape = RoundedCornerShape(28.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+    LiquidGlassCard(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(32.dp),
+        isHighlighted = true,
+        highlightColor = AmberGold
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .background(Brush.linearGradient(gradient))
-                .padding(20.dp),
+                .fillMaxWidth()
+                .height(230.dp),
             contentAlignment = Alignment.Center
         ) {
-            // Background subtle circular arc
-            Canvas(modifier = Modifier.size(200.dp)) {
-                val strokeWidth = 10.dp.toPx()
-                val diameter = size.minDimension - strokeWidth
-                val topLeft = Offset((size.width - diameter) / 2, (size.height - diameter) / 2)
-                val arcSize = Size(diameter, diameter)
+            // Hyper-optimized Liquid Progress Arc with glowing bead
+            LiquidProgressArc(
+                progress = schedule.progressRatio,
+                sizeDp = 200.dp,
+                trackColor = Color.White.copy(alpha = 0.12f),
+                liquidColors = listOf(AmberGold, Color(0xFFFFD56B), EmeraldLight)
+            )
 
-                // Background track
-                drawArc(
-                    color = Color.White.copy(alpha = 0.2f),
-                    startAngle = 135f,
-                    sweepAngle = 270f,
-                    useCenter = false,
-                    topLeft = topLeft,
-                    size = arcSize,
-                    style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-                )
-
-                // Animated Active Progress
-                drawArc(
-                    color = AmberGold,
-                    startAngle = 135f,
-                    sweepAngle = 270f * animatedProgress,
-                    useCenter = false,
-                    topLeft = topLeft,
-                    size = arcSize,
-                    style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-                )
-            }
-
-            // Central Content
+            // Central Glowing Countdown Info
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "Prossima: ${schedule.nextPrayer.type.displayName}",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = Color.White.copy(alpha = 0.9f)
-                )
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = AmberGold.copy(alpha = 0.18f),
+                    border = BorderStroke(1.dp, AmberGold.copy(alpha = 0.4f))
+                ) {
+                    Text(
+                        text = "Prossima • ${schedule.nextPrayer.type.displayName}",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = AmberGold,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
                 Text(
                     text = countdown,
-                    style = MaterialTheme.typography.displaySmall,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.displayMedium,
+                    fontWeight = FontWeight.ExtraBold,
                     color = Color.White
                 )
+
                 Text(
-                    text = "Orario: ${schedule.nextPrayer.formattedTime}",
+                    text = "Inizio alle ${schedule.nextPrayer.formattedTime}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = AmberGold,
-                    fontWeight = FontWeight.SemiBold
+                    color = Color.White.copy(alpha = 0.85f),
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
@@ -345,58 +328,27 @@ fun QuickActionsRow(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        QuickActionButton(
+        LiquidGlassButton(
             title = "Qibla",
             icon = Icons.Default.Explore,
             onClick = onQiblaClick,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            accentColor = EmeraldLight
         )
-        QuickActionButton(
+        LiquidGlassButton(
             title = "Tasbih",
             icon = Icons.Default.Fingerprint,
             onClick = onTasbihClick,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            accentColor = AmberGold
         )
-        QuickActionButton(
+        LiquidGlassButton(
             title = "Corano",
             icon = Icons.AutoMirrored.Filled.MenuBook,
             onClick = onQuranClick,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            accentColor = Color(0xFF64B5F6)
         )
-    }
-}
-
-@Composable
-fun QuickActionButton(
-    title: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        onClick = onClick,
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer,
-        modifier = modifier.height(72.dp)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = title,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = title,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Medium
-            )
-        }
     }
 }
 
@@ -407,50 +359,70 @@ fun PrayerTimeCard(
     isNext: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val containerColor = when {
-        isCurrent -> MaterialTheme.colorScheme.primaryContainer
-        isNext -> MaterialTheme.colorScheme.secondaryContainer
-        else -> MaterialTheme.colorScheme.surfaceContainerLow
+    val highlightColor = when {
+        isCurrent -> EmeraldLight
+        isNext -> AmberGold
+        else -> Color.Transparent
     }
 
-    val contentColor = when {
-        isCurrent -> MaterialTheme.colorScheme.onPrimaryContainer
-        isNext -> MaterialTheme.colorScheme.onSecondaryContainer
-        else -> MaterialTheme.colorScheme.onSurface
-    }
-
-    Card(
+    LiquidGlassCard(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = containerColor)
+        shape = RoundedCornerShape(22.dp),
+        isHighlighted = isCurrent || isNext,
+        highlightColor = highlightColor
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 14.dp),
+                .padding(horizontal = 8.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // Icon or dot indicator
+                // Pulsing Liquid Status Orb
                 Box(
                     modifier = Modifier
-                        .size(10.dp)
+                        .size(12.dp)
                         .clip(CircleShape)
-                        .background(if (isCurrent || isNext) contentColor else Color.Transparent)
+                        .background(
+                            when {
+                                isCurrent -> EmeraldLight
+                                isNext -> AmberGold
+                                else -> Color.White.copy(alpha = 0.25f)
+                            }
+                        )
                 )
-                Spacer(modifier = Modifier.width(12.dp))
+
+                Spacer(modifier = Modifier.width(14.dp))
+
                 Column {
-                    Text(
-                        text = prayer.type.displayName,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = if (isCurrent || isNext) FontWeight.Bold else FontWeight.Medium,
-                        color = contentColor
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = prayer.type.displayName,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = if (isCurrent || isNext) FontWeight.Bold else FontWeight.SemiBold,
+                            color = if (isCurrent || isNext) Color.White else MaterialTheme.colorScheme.onSurface
+                        )
+                        if (isCurrent) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Surface(
+                                shape = RoundedCornerShape(6.dp),
+                                color = EmeraldLight.copy(alpha = 0.25f)
+                            ) {
+                                Text(
+                                    text = "ORA",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = EmeraldLight,
+                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                )
+                            }
+                        }
+                    }
                     Text(
                         text = prayer.type.arabicName,
                         style = MaterialTheme.typography.bodySmall,
-                        color = contentColor.copy(alpha = 0.7f)
+                        color = (if (isCurrent || isNext) Color.White else MaterialTheme.colorScheme.onSurface).copy(alpha = 0.7f)
                     )
                 }
             }
@@ -459,7 +431,7 @@ fun PrayerTimeCard(
                 text = prayer.formattedTime,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
-                color = contentColor
+                color = if (isCurrent) EmeraldLight else if (isNext) AmberGold else MaterialTheme.colorScheme.onSurface
             )
         }
     }

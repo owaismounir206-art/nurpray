@@ -16,6 +16,10 @@ import com.nurpray.app.data.astronomical.AsrJuristicMethod
 import com.nurpray.app.data.astronomical.HighLatitudeRule
 import com.nurpray.app.data.astronomical.PrayerMethod
 
+import com.nurpray.app.core.designsystem.LiquidBackground
+import com.nurpray.app.core.designsystem.LiquidGlassCard
+import androidx.compose.ui.graphics.Color
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
@@ -30,6 +34,7 @@ fun SettingsScreen(
     var showHighLatDialog by remember { mutableStateOf(false) }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
                 title = {
@@ -45,35 +50,34 @@ fun SettingsScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = Color.Transparent
                 )
             )
         },
         modifier = modifier
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // Astronomical Calculation Section
-            item {
-                Text(
-                    text = "Calcolo Astronomico",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+        LiquidBackground {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Astronomical Calculation Section
+                item {
+                    Text(
+                        text = "Calcolo Astronomico",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
 
-            item {
-                Card(
-                    shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
-                ) {
-                    Column(modifier = Modifier.fillMaxWidth()) {
+                item {
+                    LiquidGlassCard(
+                        shape = RoundedCornerShape(26.dp)
+                    ) {
                         // Method Selector
                         SettingItem(
                             title = "Convenzione di Calcolo",
@@ -103,105 +107,105 @@ fun SettingsScreen(
                         )
                     }
                 }
-            }
 
-            // Notifications & Pre-Adhan Section
-            item {
-                Text(
-                    text = "Allarmi e Notifiche",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+                // Notifications & Pre-Adhan Section
+                item {
+                    Text(
+                        text = "Allarmi e Notifiche",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
 
-            item {
-                Card(
-                    shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
-                ) {
-                    Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = "Pre-Allarme Adhan",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                                Text(
-                                    text = "${uiState.preAdhanMinutes} minuti prima dell'inizio",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
+                item {
+                    LiquidGlassCard(
+                        shape = RoundedCornerShape(26.dp)
+                    ) {
+                        Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = "Pre-Allarme Adhan",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                    Text(
+                                        text = "${uiState.preAdhanMinutes} minuti prima dell'inizio",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
                             }
-                        }
 
-                        Slider(
-                            value = uiState.preAdhanMinutes.toFloat(),
-                            onValueChange = { viewModel.updatePreAdhanMinutes(it.toInt()) },
-                            valueRange = 0f..30f,
-                            steps = 5
-                        )
-
-                        Spacer(modifier = Modifier.height(8.dp))
-                        HorizontalDivider()
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        // Auto DND Toggle
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = "Silenzioso durante la preghiera",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                                Text(
-                                    text = "Attiva Non Disturbare per 20 minuti dall'inizio della preghiera",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            Switch(
-                                checked = uiState.isAutoDndEnabled,
-                                onCheckedChange = { viewModel.toggleAutoDnd(it) }
+                            Slider(
+                                value = uiState.preAdhanMinutes.toFloat(),
+                                onValueChange = { viewModel.updatePreAdhanMinutes(it.toInt()) },
+                                valueRange = 0f..30f,
+                                steps = 5
                             )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+                            HorizontalDivider()
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            // Auto DND Toggle
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = "Silenzioso durante la preghiera",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                    Text(
+                                        text = "Attiva Non Disturbare per 20 minuti dall'inizio della preghiera",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                                Switch(
+                                    checked = uiState.isAutoDndEnabled,
+                                    onCheckedChange = { viewModel.toggleAutoDnd(it) }
+                                )
+                            }
                         }
                     }
                 }
-            }
 
-            // About & Zero Trackers Banner
-            item {
-                Card(
-                    shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text(
-                            text = "Privacy & Open Source",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "NurPray è 100% offline-first, gratuito e privo di qualsiasi tracker o pubblicità. Tutti i calcoli solari e della Qibla avvengono localmente sul dispositivo.",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "Versione 1.0.0 • Progettato con Material You",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.primary
-                        )
+                // About & Zero Trackers Banner
+                item {
+                    LiquidGlassCard(
+                        shape = RoundedCornerShape(26.dp),
+                        isHighlighted = false
+                    ) {
+                        Column(modifier = Modifier.padding(8.dp)) {
+                            Text(
+                                text = "Privacy & Open Source",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "NurPray è 100% offline-first, gratuito e privo di qualsiasi tracker o pubblicità. Tutti i calcoli solari e della Qibla avvengono localmente sul dispositivo.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = "Versione 1.3.0 • Design Liquid Glass con animazioni a 120Hz",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
                     }
                 }
             }
