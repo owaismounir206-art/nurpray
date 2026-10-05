@@ -1,6 +1,6 @@
 # 🕌 NurPray - Modern Islamic Companion for Android
 
-[![Android CI](https://github.com/owais/nurpray/actions/workflows/android.yml/badge.svg)](https://github.com/owais/nurpray/actions)
+[![Android CI](https://github.com/owaismounir206-art/nurpray/actions/workflows/android.yml/badge.svg)](https://github.com/owaismounir206-art/nurpray/actions)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-purple.svg)](https://kotlinlang.org)
 [![Compose](https://img.shields.io/badge/Jetpack%20Compose-2024.10.01-green.svg)](https://developer.android.com/jetpack/compose)
 [![Material You](https://img.shields.io/badge/Material%20Design%203-Material%20You-0F5132.svg)](https://m3.material.io)
@@ -156,7 +156,7 @@ nurpray/
 
 ### 1. Clonare il repository
 ```bash
-git clone https://github.com/TUO_USERNAME/nurpray.git
+git clone https://github.com/owaismounir206-art/nurpray.git
 cd nurpray
 ```
 
