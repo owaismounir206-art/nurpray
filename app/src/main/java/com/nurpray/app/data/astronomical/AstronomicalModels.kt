@@ -48,6 +48,7 @@ data class CalculationParameters(
     val method: PrayerMethod = PrayerMethod.MUSLIM_WORLD_LEAGUE,
     val asrJuristicMethod: AsrJuristicMethod = AsrJuristicMethod.SHAFI_MALIKI_HANBALI,
     val highLatitudeRule: HighLatitudeRule = HighLatitudeRule.ANGLE_BASED,
+    val elevationMeters: Double = 0.0,
     val fajrCustomAngle: Double? = null,
     val ishaCustomAngle: Double? = null,
     val ishaCustomMinutes: Int? = null,

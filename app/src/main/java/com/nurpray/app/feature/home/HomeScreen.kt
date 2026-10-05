@@ -121,6 +121,61 @@ fun HomeScreen(
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Hijri Date and Islamic Holy Events Banner
+            item {
+                val hijriDate = remember(schedule?.date) {
+                    schedule?.date?.let { com.nurpray.app.data.astronomical.HijriCalendarHelper.gregorianToHijri(it) }
+                }
+
+                hijriDate?.let { hDate ->
+                    Card(
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = hDate.formattedLatin,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = hDate.formattedArabic,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+
+                            if (hDate.specialEvents.isNotEmpty()) {
+                                Spacer(modifier = Modifier.height(6.dp))
+                                for (event in hDate.specialEvents) {
+                                    Surface(
+                                        shape = RoundedCornerShape(8.dp),
+                                        color = AmberGold.copy(alpha = 0.2f),
+                                        modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
+                                    ) {
+                                        Text(
+                                            text = "✨ ${event.title}: ${event.description}",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = MaterialTheme.colorScheme.onSurface,
+                                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // Hero Prayer Card with Arc Progress and Countdown
             item {
                 schedule?.let { sched ->

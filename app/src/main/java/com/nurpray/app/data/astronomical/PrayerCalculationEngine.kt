@@ -50,8 +50,11 @@ class PrayerCalculationEngine {
         val baseTransitHours = 12.0 + timezoneOffsetHours - (longitude / 15.0) - (eot / 60.0)
         val dhuhrHours = baseTransitHours + (params.dhuhrSafetyMinutes / 60.0)
 
-        // Step 4: Sunrise and Sunset
-        val sunriseSunsetOffset = calculateHourAngleOffset(latitude, declination, SUNRISE_SUNSET_ZENITH)
+        // Step 4: Sunrise and Sunset with Dip of the Horizon elevation correction
+        // Dip = 0.0347° * sqrt(h) where h is elevation in meters
+        val dip = if (params.elevationMeters > 0.0) 0.0347 * sqrt(params.elevationMeters) else 0.0
+        val effectiveSunriseSunsetZenith = SUNRISE_SUNSET_ZENITH + dip
+        val sunriseSunsetOffset = calculateHourAngleOffset(latitude, declination, effectiveSunriseSunsetZenith)
         val sunriseHours = baseTransitHours - sunriseSunsetOffset
         val sunsetHours = baseTransitHours + sunriseSunsetOffset
 
