@@ -5,9 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.nurpray.app.core.alarm.PrayerAlarmScheduler
 import com.nurpray.app.data.astronomical.CalculationParameters
+import com.nurpray.app.data.local.database.entity.CityEntity
+import com.nurpray.app.data.repository.CityRepository
 import com.nurpray.app.domain.model.LocationCoordinates
 import com.nurpray.app.domain.model.PrayerType
 import com.nurpray.app.domain.usecase.GetTodayPrayerTimesUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,15 +25,56 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val getTodayPrayerTimesUseCase = GetTodayPrayerTimesUseCase()
     private val alarmScheduler = PrayerAlarmScheduler(application)
+    private val cityRepository = CityRepository(application)
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
+    private val _citiesList = MutableStateFlow<List<CityEntity>>(emptyList())
+    val citiesList: StateFlow<List<CityEntity>> = _citiesList.asStateFlow()
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    private val _isGpsLoading = MutableStateFlow(false)
+    val isGpsLoading: StateFlow<Boolean> = _isGpsLoading.asStateFlow()
+
     private var calculationParams = CalculationParameters()
+    private var searchJob: Job? = null
 
     init {
+        viewModelScope.launch {
+            cityRepository.ensureDatabasePopulated()
+            searchCities("")
+        }
         refreshPrayerSchedule()
         startCountdownTicker()
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(200) // Debounce typing
+            searchCities(query)
+        }
+    }
+
+    private suspend fun searchCities(query: String) {
+        cityRepository.searchCitiesWorldwide(query).collect { results ->
+            _citiesList.value = results
+        }
+    }
+
+    fun requestGpsLocation() {
+        viewModelScope.launch {
+            _isGpsLoading.value = true
+            val coords = cityRepository.getCurrentGpsLocation()
+            _isGpsLoading.value = false
+            if (coords != null) {
+                updateLocation(coords)
+            }
+        }
     }
 
     fun updateLocation(location: LocationCoordinates) {

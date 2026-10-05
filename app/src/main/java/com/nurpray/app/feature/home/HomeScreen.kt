@@ -58,6 +58,11 @@ fun HomeScreen(
         PrayerType.ISHA -> IshaSkyGradient
     }
 
+    var showCityPicker by remember { mutableStateOf(false) }
+    val citiesList by viewModel.citiesList.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
+    val isGpsLoading by viewModel.isGpsLoading.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -68,7 +73,13 @@ fun HomeScreen(
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable { showCityPicker = true }
+                                .padding(vertical = 2.dp, horizontal = 4.dp)
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.LocationOn,
                                 contentDescription = null,
@@ -80,6 +91,13 @@ fun HomeScreen(
                                 text = "${uiState.location.cityName}, ${uiState.location.countryName}",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Spacer(modifier = Modifier.width(2.dp))
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = "Cambia città",
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
@@ -158,6 +176,21 @@ fun HomeScreen(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
             }
+        }
+
+        if (showCityPicker) {
+            CityPickerSheet(
+                onDismissRequest = { showCityPicker = false },
+                onCitySelected = { loc ->
+                    viewModel.updateLocation(loc)
+                    showCityPicker = false
+                },
+                onGpsRequested = { viewModel.requestGpsLocation() },
+                searchQuery = searchQuery,
+                onSearchQueryChange = { viewModel.onSearchQueryChanged(it) },
+                citiesList = citiesList,
+                isGpsLoading = isGpsLoading
+            )
         }
     }
 }

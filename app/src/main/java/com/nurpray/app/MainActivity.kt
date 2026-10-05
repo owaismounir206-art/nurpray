@@ -9,6 +9,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -55,7 +57,7 @@ class MainActivity : ComponentActivity() {
         val locationGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true ||
                 permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
         if (locationGranted) {
-            homeViewModel.refreshPrayerSchedule()
+            homeViewModel.requestGpsLocation()
         }
     }
 
@@ -64,6 +66,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         requestRequiredPermissions()
+
+        // Sync location with Qibla compass
+        lifecycleScope.launch {
+            homeViewModel.uiState.collect { state ->
+                val loc = state.location
+                qiblaViewModel.setLocation(loc.latitude, loc.longitude, "${loc.cityName}, ${loc.countryName}")
+            }
+        }
 
         setContent {
             NurPrayTheme {
