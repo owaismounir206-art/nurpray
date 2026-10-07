@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App & General -->
+    <string name="app_name">NurPray</string>
+    <string name="tagline">Время намаза, Кибла и Коран оффлайн</string>
+    <string name="app_version">Версия %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Главная</string>
+    <string name="nav_qibla">Кибла</string>
+    <string name="nav_quran">Коран</string>
+    <string name="nav_tasbih">Тасбих</string>
+    <string name="nav_dua">Дуа</string>
+    <string name="nav_settings">Настройки</string>
+
+    <!-- Prayers -->
+    <string name="fajr">Фаджр</string>
+    <string name="sunrise">Восход (Шурук)</string>
+    <string name="dhuhr">Зухр</string>
+    <string name="asr">Аср</string>
+    <string name="maghrib">Магриб</string>
+    <string name="isha">Иша</string>
+
+    <!-- Prayer Status & Times -->
+    <string name="today_prayer_times">Время намаза на сегодня</string>
+    <string name="next_prayer">Следующий намаз</string>
+    <string name="current_prayer">Текущий намаз</string>
+    <string name="next_label">Далее</string>
+    <string name="starts_at">Начало в %1$s</string>
+    <string name="time_remaining">Осталось времени</string>
+    <string name="time_passed">Прошло времени</string>
+    <string name="upcoming_prayer">Предстоящий</string>
+
+    <!-- Fasting & Ramadan Tracker -->
+    <string name="fasting_and_iftar">Пост и Ифтар</string>
+    <string name="imsak">Имсак</string>
+    <string name="iftar">Ифтар</string>
+    <string name="imsak_desc">Конец сухура</string>
+    <string name="iftar_desc">Время разговения</string>
+    <string name="fasting_in_progress">Идет пост</string>
+    <string name="fasting_completed_today">Пост на сегодня завершен ✨</string>
+    <string name="iftar_in">Ифтар через %1$s</string>
+    <string name="imsak_in">Имсак через %1$s</string>
+
+    <!-- Qibla Compass & Sensors -->
+    <string name="qibla_compass">Компас Киблы</string>
+    <string name="kaaba_direction">Направление на Каабу</string>
+    <string name="distance">Расстояние</string>
+    <string name="distance_km">%1$d км</string>
+    <string name="qibla_aligned">Направление на Каабу найдено!</string>
+    <string name="rotate_device">Поверните устройство к Каабе</string>
+    <string name="sensor_low_accuracy">Низкая точность компаса. Повращайте устройство «восьмеркой» для калибровки.</string>
+
+    <!-- Tasbih (Digital Counter) -->
+    <string name="digital_tasbih">Электронный тасбих</string>
+    <string name="reset_counter">Сбросить</string>
+    <string name="target_reached">Цель достигнута!</string>
+    <string name="tap_to_count">Нажмите в любом месте для счета</string>
+    <string name="dhikr_subhanallah">Субханаллах</string>
+    <string name="dhikr_subhanallah_trans">Пречист Аллах</string>
+    <string name="dhikr_alhamdulillah">Альхамдулиллях</string>
+    <string name="dhikr_alhamdulillah_trans">Вся хвала Аллаху</string>
+    <string name="dhikr_allahuakbar">Аллаху Акбар</string>
+    <string name="dhikr_allahuakbar_trans">Аллах — Велик</string>
+    <string name="dhikr_astaghfirullah">Астагфируллах</string>
+    <string name="dhikr_astaghfirullah_trans">Прошу прощения у Аллаха</string>
+    <string name="dhikr_lailahaillallah">Ля иляха илляллах</string>
+    <string name="dhikr_lailahaillallah_trans">Нет божества, кроме Аллаха</string>
+
+    <!-- Quran -->
+    <string name="holy_quran">Священный Коран</string>
+    <string name="search_surah">Поиск суры...</string>
+    <string name="verses_count">%1$d аятов</string>
+    <string name="revelation_meccan">Мекканская</string>
+    <string name="revelation_medinan">Мединская</string>
+    <string name="back_to_surahs">Назад к сурам</string>
+
+    <!-- Du\'a & Supplications -->
+    <string name="dua_title">Мольбы и Дуа</string>
+    <string name="dua_subtitle">Крепость мусульманина</string>
+    <string name="search_dua">Поиск дуа...</string>
+    <string name="category_all">Все</string>
+    <string name="category_morning_evening">Утро и вечер</string>
+    <string name="category_prayer">Намаз</string>
+    <string name="category_fasting">Пост</string>
+    <string name="category_travel">Путешествие</string>
+    <string name="category_hardship">Бедствие и защита</string>
+    <string name="category_family">Семья и прощение</string>
+    <string name="category_home">Дом и мечеть</string>
+    <string name="source">Источник: %1$s</string>
+    <string name="repetitions">%1$d раз</string>
+
+    <!-- City Picker -->
+    <string name="select_city">Выбрать город</string>
+    <string name="change_city">Сменить город</string>
+    <string name="search_city_placeholder">Поиск по 50 000+ городов или странам...</string>
+    <string name="use_gps">Использовать GPS</string>
+    <string name="gps_locating">Определение местоположения...</string>
+    <string name="no_cities_found">Город не найден</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Настройки</string>
+    <string name="calculation_section">Метод расчета и фикх</string>
+    <string name="calc_method">Метод расчета</string>
+    <string name="asr_method">Мазхаб для Асра</string>
+    <string name="asr_standard">Стандартный (Шафии, Малики, Ханбали)</string>
+    <string name="asr_hanafi">Ханафитский (тень в два раза)</string>
+    <string name="high_latitude_rule">Высокие широты</string>
+    <string name="high_lat_none">Нет (стандартный)</string>
+    <string name="high_lat_angle">По углу солнца</string>
+    <string name="high_lat_midnight">Полночь</string>
+    <string name="high_lat_seventh">Одна седьмая ночи</string>
+    <string name="dip_horizon">Коррекция высоты над уровнем моря</string>
+    <string name="dip_horizon_desc">Корректировать восход и закат по высоте местности</string>
+    <string name="notifications_section">Уведомления и Азан</string>
+    <string name="adhan_notifications">Уведомления Азана</string>
+    <string name="pre_adhan_notifications">Предварительное оповещение (за 10 мин)</string>
+    <string name="dnd_mode">Не беспокоить во время намаза</string>
+    <string name="dnd_mode_desc">Автоматически отключать звук во время молитвы</string>
+    <string name="language_section">Язык и региональные настройки</string>
+    <string name="app_language">Язык приложения</string>
+    <string name="system_default">Язык системы</string>
+    <string name="updates_section">Обновления</string>
+    <string name="check_updates">Проверить обновления</string>
+    <string name="check_updates_desc">Проверить новые релизы на GitHub</string>
+    <string name="update_available">Доступно обновление: Версия %1$s</string>
+    <string name="app_up_to_date">Установлена актуальная версия</string>
+    <string name="download_install">Скачать и установить</string>
+    <string name="downloading_progress">Загрузка: %1$d%%</string>
+    <string name="checking_updates">Поиск обновлений...</string>
+    <string name="about_section">О приложении NurPray</string>
+    <string name="about_desc">Открытый исходный код, 100% оффлайн, конфиденциальность и астрономическая точность.</string>
+
+    <!-- Notification Channels -->
+    <string name="adhan_channel_name">Уведомления Азана</string>
+    <string name="adhan_channel_desc">Приоритетные оповещения времени намаза</string>
+    <string name="pre_adhan_channel_name">Предварительные оповещения</string>
+    <string name="pre_adhan_channel_desc">Тихие напоминания за 10-15 минут до намаза</string>
+</resources>

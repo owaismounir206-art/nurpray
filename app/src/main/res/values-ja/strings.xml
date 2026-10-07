@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App & General -->
+    <string name="app_name">NurPray</string>
+    <string name="tagline">礼拝時間・キブラ・コーラン（オフライン対応）</string>
+    <string name="app_version">バージョン %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">ホーム</string>
+    <string name="nav_qibla">キブラ</string>
+    <string name="nav_quran">コーラン</string>
+    <string name="nav_tasbih">タスビーフ</string>
+    <string name="nav_dua">祈りの言葉</string>
+    <string name="nav_settings">設定</string>
+
+    <!-- Prayers -->
+    <string name="fajr">ファジュル</string>
+    <string name="sunrise">日の出 (シュルーク)</string>
+    <string name="dhuhr">ズフル</string>
+    <string name="asr">アスル</string>
+    <string name="maghrib">マグリブ</string>
+    <string name="isha">イシャー</string>
+
+    <!-- Prayer Status & Times -->
+    <string name="today_prayer_times">本日の礼拝時間</string>
+    <string name="next_prayer">次の礼拝</string>
+    <string name="current_prayer">現在の礼拝</string>
+    <string name="next_label">次</string>
+    <string name="starts_at">%1$s に開始</string>
+    <string name="time_remaining">残り時間</string>
+    <string name="time_passed">経過時間</string>
+    <string name="upcoming_prayer">次の時間</string>
+
+    <!-- Fasting & Ramadan Tracker -->
+    <string name="fasting_and_iftar">断食とイフタール</string>
+    <string name="imsak">イムサーク</string>
+    <string name="iftar">イフタール</string>
+    <string name="imsak_desc">スフール終了</string>
+    <string name="iftar_desc">断食明け</string>
+    <string name="fasting_in_progress">断食中</string>
+    <string name="fasting_completed_today">本日の断食を達成しました ✨</string>
+    <string name="iftar_in">イフタールまで %1$s</string>
+    <string name="imsak_in">イムサークまで %1$s</string>
+
+    <!-- Qibla Compass & Sensors -->
+    <string name="qibla_compass">キブラコンパス</string>
+    <string name="kaaba_direction">カアバの方角</string>
+    <string name="distance">距離</string>
+    <string name="distance_km">%1$d km</string>
+    <string name="qibla_aligned">カアバの方角に一致！</string>
+    <string name="rotate_device">端末をカアバの方角に向けてください</string>
+    <string name="sensor_low_accuracy">コンパスの精度が低下しています。8の字に動かして調整してください。</string>
+
+    <!-- Tasbih (Digital Counter) -->
+    <string name="digital_tasbih">デジタル数珠</string>
+    <string name="reset_counter">リセット</string>
+    <string name="target_reached">目標達成！</string>
+    <string name="tap_to_count">画面をタップしてカウント</string>
+    <string name="dhikr_subhanallah">SubhanAllah</string>
+    <string name="dhikr_subhanallah_trans">アッラーに栄光あれ</string>
+    <string name="dhikr_alhamdulillah">Alhamdulillah</string>
+    <string name="dhikr_alhamdulillah_trans">アッラーに讃えあれ</string>
+    <string name="dhikr_allahuakbar">Allahu Akbar</string>
+    <string name="dhikr_allahuakbar_trans">アッラーは最も偉大なり</string>
+    <string name="dhikr_astaghfirullah">Astaghfirullah</string>
+    <string name="dhikr_astaghfirullah_trans">アッラーの許しを乞います</string>
+    <string name="dhikr_lailahaillallah">La ilaha illa Allah</string>
+    <string name="dhikr_lailahaillallah_trans">アッラーの他に神はなし</string>
+
+    <!-- Quran -->
+    <string name="holy_quran">聖コーラン</string>
+    <string name="search_surah">章（スーラ）を検索...</string>
+    <string name="verses_count">%1$d 節</string>
+    <string name="revelation_meccan">マッカ啓示</string>
+    <string name="revelation_medinan">マディーナ啓示</string>
+    <string name="back_to_surahs">章一覧に戻る</string>
+
+    <!-- Du\'a & Supplications -->
+    <string name="dua_title">ドゥアー（祈願と唱念）</string>
+    <string name="dua_subtitle">ムスリムの砦 (ヒスン・アル・ムスリム)</string>
+    <string name="search_dua">ドゥアーを検索...</string>
+    <string name="category_all">すべて</string>
+    <string name="category_morning_evening">朝と夕方</string>
+    <string name="category_prayer">礼拝</string>
+    <string name="category_fasting">断食</string>
+    <string name="category_travel">旅</string>
+    <string name="category_hardship">困難と保護</string>
+    <string name="category_family">家族と許し</string>
+    <string name="category_home">家とモスク</string>
+    <string name="source">出典: %1$s</string>
+    <string name="repetitions">%1$d 回</string>
+
+    <!-- City Picker -->
+    <string name="select_city">都市を選択</string>
+    <string name="change_city">都市を変更</string>
+    <string name="search_city_placeholder">50,000以上の都市または国を検索...</string>
+    <string name="use_gps">現在のGPS位置情報を使用</string>
+    <string name="gps_locating">位置情報を取得中...</string>
+    <string name="no_cities_found">都市が見つかりません</string>
+
+    <!-- Settings -->
+    <string name="settings_title">設定</string>
+    <string name="calculation_section">計算方法と法学基準</string>
+    <string name="calc_method">計算方法</string>
+    <string name="asr_method">アスル礼拝の法学派</string>
+    <string name="asr_standard">標準（シャーフィイー、マーリク、ハンバル）</string>
+    <string name="asr_hanafi">ハナフィー（影の長さ2倍）</string>
+    <string name="high_latitude_rule">高緯度地域のルール</string>
+    <string name="high_lat_none">なし（標準天文）</string>
+    <string name="high_lat_angle">太陽角度基準</string>
+    <string name="high_lat_midnight">真夜中法</string>
+    <string name="high_lat_seventh">夜の7分の1法</string>
+    <string name="dip_horizon">標高・地平線補正</string>
+    <string name="dip_horizon_desc">海抜標高に応じて日の出・日没時刻を補正</string>
+    <string name="notifications_section">通知とアザーン</string>
+    <string name="adhan_notifications">アザーン通知</string>
+    <string name="pre_adhan_notifications">事前リマインダー (10分前)</string>
+    <string name="dnd_mode">礼拝中のマナーモード</string>
+    <string name="dnd_mode_desc">礼拝時間中に端末を自動的に消音</string>
+    <string name="language_section">言語と地域</string>
+    <string name="app_language">アプリの言語</string>
+    <string name="system_default">システムデフォルト</string>
+    <string name="updates_section">アプリの更新</string>
+    <string name="check_updates">更新を確認</string>
+    <string name="check_updates_desc">GitHubで最新バージョンを確認</string>
+    <string name="update_available">新しいバージョンが利用可能: %1$s</string>
+    <string name="app_up_to_date">最新バージョンです</string>
+    <string name="download_install">今すぐダウンロードしてインストール</string>
+    <string name="downloading_progress">ダウンロード中: %1$d%%</string>
+    <string name="checking_updates">更新を確認中...</string>
+    <string name="about_section">NurPray について</string>
+    <string name="about_desc">オープンソース、完全オフライン、天文学的精度を備えたプライバシー重視のイスラムアプリ。</string>
+
+    <!-- Notification Channels -->
+    <string name="adhan_channel_name">アザーン通知</string>
+    <string name="adhan_channel_desc">礼拝時間の高優先度通知</string>
+    <string name="pre_adhan_channel_name">アザーン前通知</string>
+    <string name="pre_adhan_channel_desc">礼拝10〜15分前の通知</string>
+</resources>

@@ -106,7 +106,54 @@ class SettingsViewModel : ViewModel() {
             }
         }
     }
+
+    private val _currentLanguage = MutableStateFlow(getCurrentLanguageTag())
+    val currentLanguage: StateFlow<String> = _currentLanguage.asStateFlow()
+
+    fun setLanguage(languageCode: String) {
+        _currentLanguage.value = languageCode
+        if (languageCode.isEmpty()) {
+            androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
+                androidx.core.os.LocaleListCompat.getEmptyLocaleList()
+            )
+        } else {
+            androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
+                androidx.core.os.LocaleListCompat.forLanguageTags(languageCode)
+            )
+        }
+    }
+
+    fun getCurrentLanguageTag(): String {
+        val locales = androidx.appcompat.app.AppCompatDelegate.getApplicationLocales()
+        return if (locales.isEmpty) "" else locales.toLanguageTags()
+    }
 }
+
+data class SupportedLanguage(
+    val code: String,
+    val displayName: String,
+    val nativeName: String
+)
+
+val APP_SUPPORTED_LANGUAGES = listOf(
+    SupportedLanguage("", "System Default", "Predefinita di sistema"),
+    SupportedLanguage("en", "English", "English"),
+    SupportedLanguage("ar", "Arabic", "العربية"),
+    SupportedLanguage("ur", "Urdu", "اردو"),
+    SupportedLanguage("id", "Indonesian", "Bahasa Indonesia"),
+    SupportedLanguage("tr", "Turkish", "Türkçe"),
+    SupportedLanguage("fr", "French", "Français"),
+    SupportedLanguage("es", "Spanish", "Español"),
+    SupportedLanguage("it", "Italian", "Italiano"),
+    SupportedLanguage("de", "German", "Deutsch"),
+    SupportedLanguage("ru", "Russian", "Русский"),
+    SupportedLanguage("bn", "Bengali", "বাংলা"),
+    SupportedLanguage("hi", "Hindi", "हिन्दी"),
+    SupportedLanguage("fa", "Persian", "فارسی"),
+    SupportedLanguage("zh", "Chinese", "简体中文"),
+    SupportedLanguage("pt", "Portuguese", "Português"),
+    SupportedLanguage("ja", "Japanese", "日本語")
+)
 
 sealed class UpdateUiState {
     data object Idle : UpdateUiState()

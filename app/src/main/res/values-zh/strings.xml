@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App & General -->
+    <string name="app_name">NurPray</string>
+    <string name="tagline">离线礼拜时间、朝向定位与古兰经</string>
+    <string name="app_version">版本 %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">首页</string>
+    <string name="nav_qibla">克尔白朝向</string>
+    <string name="nav_quran">古兰经</string>
+    <string name="nav_tasbih">赞念珠</string>
+    <string name="nav_dua">祈祷词</string>
+    <string name="nav_settings">设置</string>
+
+    <!-- Prayers -->
+    <string name="fajr">晨礼 (Fajr)</string>
+    <string name="sunrise">日出 (Shuruq)</string>
+    <string name="dhuhr">晌礼 (Dhuhr)</string>
+    <string name="asr">晡礼 (Asr)</string>
+    <string name="maghrib">昏礼 (Maghrib)</string>
+    <string name="isha">宵礼 (Isha)</string>
+
+    <!-- Prayer Status & Times -->
+    <string name="today_prayer_times">今日礼拜时间</string>
+    <string name="next_prayer">下一礼拜</string>
+    <string name="current_prayer">当前礼拜</string>
+    <string name="next_label">即将到来</string>
+    <string name="starts_at">开始于 %1$s</string>
+    <string name="time_remaining">剩余时间</string>
+    <string name="time_passed">已过时间</string>
+    <string name="upcoming_prayer">下一时辰</string>
+
+    <!-- Fasting & Ramadan Tracker -->
+    <string name="fasting_and_iftar">封斋与开斋</string>
+    <string name="imsak">封斋 (Imsak)</string>
+    <string name="iftar">开斋 (Iftar)</string>
+    <string name="imsak_desc">封斋截止时间</string>
+    <string name="iftar_desc">开斋时间</string>
+    <string name="fasting_in_progress">斋戒进行中</string>
+    <string name="fasting_completed_today">今日斋戒已圆满 ✨</string>
+    <string name="iftar_in">距离开斋还有 %1$s</string>
+    <string name="imsak_in">距离封斋还有 %1$s</string>
+
+    <!-- Qibla Compass & Sensors -->
+    <string name="qibla_compass">朝向罗盘</string>
+    <string name="kaaba_direction">天房朝向</string>
+    <string name="distance">距离</string>
+    <string name="distance_km">%1$d 公里</string>
+    <string name="qibla_aligned">已对准克尔白天房！</string>
+    <string name="rotate_device">旋转设备朝向天房</string>
+    <string name="sensor_low_accuracy">罗盘精度较低，请画“8”字形校准设备。</string>
+
+    <!-- Tasbih (Digital Counter) -->
+    <string name="digital_tasbih">电子赞念珠</string>
+    <string name="reset_counter">重置</string>
+    <string name="target_reached">已达成目标！</string>
+    <string name="tap_to_count">点击屏幕任意位置进行计数</string>
+    <string name="dhikr_subhanallah">SubhanAllah</string>
+    <string name="dhikr_subhanallah_trans">赞颂安拉超绝万物</string>
+    <string name="dhikr_alhamdulillah">Alhamdulillah</string>
+    <string name="dhikr_alhamdulillah_trans">万赞归于安拉</string>
+    <string name="dhikr_allahuakbar">Allahu Akbar</string>
+    <string name="dhikr_allahuakbar_trans">安拉至大</string>
+    <string name="dhikr_astaghfirullah">Astaghfirullah</string>
+    <string name="dhikr_astaghfirullah_trans">祈求安拉饶恕</string>
+    <string name="dhikr_lailahaillallah">La ilaha illa Allah</string>
+    <string name="dhikr_lailahaillallah_trans">万物非主，唯有安拉</string>
+
+    <!-- Quran -->
+    <string name="holy_quran">古兰经</string>
+    <string name="search_surah">搜索苏拉（章）...</string>
+    <string name="verses_count">%1$d 节</string>
+    <string name="revelation_meccan">麦加篇章</string>
+    <string name="revelation_medinan">麦地那篇章</string>
+    <string name="back_to_surahs">返回章节列表</string>
+
+    <!-- Du\'a & Supplications -->
+    <string name="dua_title">祈祷词与赞念</string>
+    <string name="dua_subtitle">穆斯林堡垒 (Hisn al-Muslim)</string>
+    <string name="search_dua">搜索祈祷词...</string>
+    <string name="category_all">全部</string>
+    <string name="category_morning_evening">早晚赞念</string>
+    <string name="category_prayer">礼拜祈祷</string>
+    <string name="category_fasting">斋戒</string>
+    <string name="category_travel">出行</string>
+    <string name="category_hardship">困难与护佑</string>
+    <string name="category_family">家庭与宽恕</string>
+    <string name="category_home">居家与清真寺</string>
+    <string name="source">出处：%1$s</string>
+    <string name="repetitions">%1$d 遍</string>
+
+    <!-- City Picker -->
+    <string name="select_city">选择城市</string>
+    <string name="change_city">更换城市</string>
+    <string name="search_city_placeholder">搜索全球50,000+城市或国家...</string>
+    <string name="use_gps">使用当前GPS定位</string>
+    <string name="gps_locating">正在获取GPS位置...</string>
+    <string name="no_cities_found">未找到城市</string>
+
+    <!-- Settings -->
+    <string name="settings_title">设置</string>
+    <string name="calculation_section">计算方法与教法标准</string>
+    <string name="calc_method">计算方法</string>
+    <string name="asr_method">晡礼教法学派</string>
+    <string name="asr_standard">主流标准（沙斐仪、马立克、罕百里）</string>
+    <string name="asr_hanafi">哈乃斐学派（双倍阴影）</string>
+    <string name="high_latitude_rule">高纬度地区规则</string>
+    <string name="high_lat_none">无（标准天文）</string>
+    <string name="high_lat_angle">基于角度</string>
+    <string name="high_lat_midnight">夜半法</string>
+    <string name="high_lat_seventh">七分之一夜法</string>
+    <string name="dip_horizon">海拔与地平线修正</string>
+    <string name="dip_horizon_desc">根据海拔高度修正日出与日落时间</string>
+    <string name="notifications_section">通知与宣礼</string>
+    <string name="adhan_notifications">宣礼通知</string>
+    <string name="pre_adhan_notifications">宣礼前提醒（提前10分钟）</string>
+    <string name="dnd_mode">礼拜时免打扰</string>
+    <string name="dnd_mode_desc">礼拜时自动将设备静音</string>
+    <string name="language_section">语言与区域</string>
+    <string name="app_language">应用语言</string>
+    <string name="system_default">跟随系统默认</string>
+    <string name="updates_section">应用更新</string>
+    <string name="check_updates">检查更新</string>
+    <string name="check_updates_desc">在GitHub上检查最新版本</string>
+    <string name="update_available">发现新版本：%1$s</string>
+    <string name="app_up_to_date">已是最新版本</string>
+    <string name="download_install">立即下载并安装</string>
+    <string name="downloading_progress">正在下载：%1$d%%</string>
+    <string name="checking_updates">正在检查更新...</string>
+    <string name="about_section">关于 NurPray</string>
+    <string name="about_desc">开源、100%离线、注重隐私且具备高精度天文算法的穆斯林助手。</string>
+
+    <!-- Notification Channels -->
+    <string name="adhan_channel_name">宣礼通知</string>
+    <string name="adhan_channel_desc">礼拜时间的高优先级提醒</string>
+    <string name="pre_adhan_channel_name">宣礼前提醒</string>
+    <string name="pre_adhan_channel_desc">礼拜前10-15分钟的温和提醒</string>
+</resources>

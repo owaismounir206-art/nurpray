@@ -7,14 +7,15 @@ import java.time.format.DateTimeFormatter
 enum class PrayerType(
     val displayName: String,
     val arabicName: String,
-    val isFardh: Boolean = true
+    val isFardh: Boolean = true,
+    val nameResId: Int = com.nurpray.app.R.string.fajr
 ) {
-    FAJR("Fajr", "الفجر", true),
-    SUNRISE("Alba (Shuruq)", "الشروق", false),
-    DHUHR("Dhuhr", "الظهر", true),
-    ASR("Asr", "العصر", true),
-    MAGHRIB("Maghrib", "المغرب", true),
-    ISHA("Isha", "العشاء", true)
+    FAJR("Fajr", "الفجر", true, com.nurpray.app.R.string.fajr),
+    SUNRISE("Alba (Shuruq)", "الشروق", false, com.nurpray.app.R.string.sunrise),
+    DHUHR("Dhuhr", "الظهر", true, com.nurpray.app.R.string.dhuhr),
+    ASR("Asr", "العصر", true, com.nurpray.app.R.string.asr),
+    MAGHRIB("Maghrib", "المغرب", true, com.nurpray.app.R.string.maghrib),
+    ISHA("Isha", "العشاء", true, com.nurpray.app.R.string.isha)
 }
 
 data class PrayerTime(

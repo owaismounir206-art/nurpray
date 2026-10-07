@@ -1,13 +1,10 @@
 package com.nurpray.app.feature.dua
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -17,19 +14,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nurpray.app.R
 import com.nurpray.app.core.designsystem.AmberGold
 import com.nurpray.app.core.designsystem.EmeraldLight
-import com.nurpray.app.core.designsystem.LiquidBackground
-import com.nurpray.app.core.designsystem.LiquidGlassCard
-import com.nurpray.app.data.repository.DuaItem
+import com.nurpray.app.core.designsystem.M3Background
+import com.nurpray.app.core.designsystem.M3Card
 import com.nurpray.app.data.repository.DuaRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,7 +58,7 @@ fun DuaScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Du'a & Suppliche",
+                        text = stringResource(R.string.dua_title),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
@@ -69,7 +66,7 @@ fun DuaScreen(
                 navigationIcon = {
                     if (onBack != null) {
                         IconButton(onClick = onBack) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Indietro")
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                         }
                     }
                 },
@@ -80,7 +77,7 @@ fun DuaScreen(
         },
         modifier = modifier
     ) { innerPadding ->
-        LiquidBackground {
+        M3Background {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -91,7 +88,7 @@ fun DuaScreen(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    placeholder = { Text("Cerca supplica o invocazione...") },
+                    placeholder = { Text(stringResource(R.string.search_dua)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -130,12 +127,12 @@ fun DuaScreen(
                         val currentCount = counts.getOrDefault(dua.id, 0)
                         val isCompleted = currentCount >= dua.targetCount
 
-                        LiquidGlassCard(
-                            shape = RoundedCornerShape(24.dp),
+                        M3Card(
+                            shape = RoundedCornerShape(20.dp),
                             isHighlighted = isCompleted,
                             highlightColor = EmeraldLight
                         ) {
-                            Column(modifier = Modifier.padding(6.dp)) {
+                            Column(modifier = Modifier.padding(4.dp)) {
                                 // Title and Category Tag
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -152,7 +149,7 @@ fun DuaScreen(
 
                                     Surface(
                                         shape = RoundedCornerShape(8.dp),
-                                        color = AmberGold.copy(alpha = 0.2f)
+                                        color = AmberGold.copy(alpha = 0.16f)
                                     ) {
                                         Text(
                                             text = dua.source,
@@ -189,7 +186,7 @@ fun DuaScreen(
 
                                 Spacer(modifier = Modifier.height(6.dp))
 
-                                // Italian Translation
+                                // Translation
                                 Text(
                                     text = "« ${dua.italianTranslation} »",
                                     style = MaterialTheme.typography.bodySmall,
@@ -208,7 +205,7 @@ fun DuaScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text(
-                                        text = "Ripetizioni: ${dua.targetCount}x",
+                                        text = stringResource(R.string.repetitions, dua.targetCount),
                                         style = MaterialTheme.typography.labelMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
@@ -238,21 +235,21 @@ fun DuaScreen(
                                             if (isCompleted) {
                                                 Icon(
                                                     imageVector = Icons.Default.Check,
-                                                    contentDescription = "Completato",
-                                                    tint = Color.White,
-                                                    modifier = Modifier.size(16.dp)
+                                                    contentDescription = null,
+                                                    modifier = Modifier.size(16.dp),
+                                                    tint = Color.White
                                                 )
                                                 Spacer(modifier = Modifier.width(4.dp))
                                                 Text(
-                                                    text = "Completato",
-                                                    style = MaterialTheme.typography.labelSmall,
+                                                    text = "Fatto",
+                                                    style = MaterialTheme.typography.labelMedium,
                                                     fontWeight = FontWeight.Bold,
                                                     color = Color.White
                                                 )
                                             } else {
                                                 Text(
                                                     text = "$currentCount / ${dua.targetCount}",
-                                                    style = MaterialTheme.typography.labelSmall,
+                                                    style = MaterialTheme.typography.labelMedium,
                                                     fontWeight = FontWeight.Bold,
                                                     color = MaterialTheme.colorScheme.primary
                                                 )
@@ -262,10 +259,6 @@ fun DuaScreen(
                                 }
                             }
                         }
-                    }
-
-                    item {
-                        Spacer(modifier = Modifier.height(24.dp))
                     }
                 }
             }

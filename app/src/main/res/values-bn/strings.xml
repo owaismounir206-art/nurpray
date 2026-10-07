@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App & General -->
+    <string name="app_name">নূর প্রে</string>
+    <string name="tagline">নামাজের সময়সূচি, কিবলা ও কুরআন অফলাইন</string>
+    <string name="app_version">সংস্করণ %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">হোম</string>
+    <string name="nav_qibla">কিবলা</string>
+    <string name="nav_quran">কুরআন</string>
+    <string name="nav_tasbih">তাসবীহ</string>
+    <string name="nav_dua">দোয়া</string>
+    <string name="nav_settings">সেটিংস</string>
+
+    <!-- Prayers -->
+    <string name="fajr">ফজর</string>
+    <string name="sunrise">সূর্যোদয়</string>
+    <string name="dhuhr">যোহর</string>
+    <string name="asr">আসর</string>
+    <string name="maghrib">মাগরিব</string>
+    <string name="isha">ইশা</string>
+
+    <!-- Prayer Status & Times -->
+    <string name="today_prayer_times">আজকের নামাজের সময়সূচি</string>
+    <string name="next_prayer">পরবর্তী নামাজ</string>
+    <string name="current_prayer">বর্তমান নামাজ</string>
+    <string name="next_label">পরবর্তী</string>
+    <string name="starts_at">শুরু হবে %1$s টায়</string>
+    <string name="time_remaining">বাকি সময়</string>
+    <string name="time_passed">অতিক্রান্ত সময়</string>
+    <string name="upcoming_prayer">আসন্ন নামাজ</string>
+
+    <!-- Fasting & Ramadan Tracker -->
+    <string name="fasting_and_iftar">রোজা ও ইফতার</string>
+    <string name="imsak">ইমসাক</string>
+    <string name="iftar">ইফতার</string>
+    <string name="imsak_desc">সেহরির শেষ সময়</string>
+    <string name="iftar_desc">ইফতারের সময়</string>
+    <string name="fasting_in_progress">রোজা চলমান</string>
+    <string name="fasting_completed_today">আজকের রোজা সম্পন্ন হয়েছে ✨</string>
+    <string name="iftar_in">ইফতার বাকি %1$s</string>
+    <string name="imsak_in">ইমসাক বাকি %1$s</string>
+
+    <!-- Qibla Compass & Sensors -->
+    <string name="qibla_compass">কিবলা কম্পাস</string>
+    <string name="kaaba_direction">কাবার দিক</string>
+    <string name="distance">দূরত্ব</string>
+    <string name="distance_km">%1$d কিমি</string>
+    <string name="qibla_aligned">কাবার দিকে সঠিকভাবে নির্দেশিত!</string>
+    <string name="rotate_device">ডিভাইসটি কাবার দিকে ঘোরান</string>
+    <string name="sensor_low_accuracy">কম্পাসের নির্ভুলতা কম। ঠিক করতে ডিভাইসটি ৮ আকারে ঘোরান।</string>
+
+    <!-- Tasbih (Digital Counter) -->
+    <string name="digital_tasbih">ডিজিটাল তাসবীহ</string>
+    <string name="reset_counter">রিসেট</string>
+    <string name="target_reached">লক্ষ্য পূরণ হয়েছে!</string>
+    <string name="tap_to_count">গণনা করতে ট্যাপ করুন</string>
+    <string name="dhikr_subhanallah">সুবহানাল্লাহ</string>
+    <string name="dhikr_subhanallah_trans">আল্লাহ পবিত্র</string>
+    <string name="dhikr_alhamdulillah">আলহামদুলিল্লাহ</string>
+    <string name="dhikr_alhamdulillah_trans">সমস্ত প্রশংসা আল্লাহর জন্য</string>
+    <string name="dhikr_allahuakbar">আল্লাহু আকবার</string>
+    <string name="dhikr_allahuakbar_trans">আল্লাহ সর্বশ্রেষ্ঠ</string>
+    <string name="dhikr_astaghfirullah">আস্তাগফিরুল্লাহ</string>
+    <string name="dhikr_astaghfirullah_trans">আমি আল্লাহর কাছে ক্ষমা চাই</string>
+    <string name="dhikr_lailahaillallah">লা ইলাহা ইল্লাল্লাহ</string>
+    <string name="dhikr_lailahaillallah_trans">আল্লাহ ছাড়া কোনো উপাস্য নেই</string>
+
+    <!-- Quran -->
+    <string name="holy_quran">পবিত্র কুরআন</string>
+    <string name="search_surah">সূরা অনুসন্ধান করুন...</string>
+    <string name="verses_count">%1$d আয়াত</string>
+    <string name="revelation_meccan">মাক্কী</string>
+    <string name="revelation_medinan">মাদানী</string>
+    <string name="back_to_surahs">সূরার তালিকায় ফিরুন</string>
+
+    <!-- Du\'a & Supplications -->
+    <string name="dua_title">দোয়া ও মোনাজাত</string>
+    <string name="dua_subtitle">হিসনুল মুসলিম</string>
+    <string name="search_dua">দোয়া খুঁজুন...</string>
+    <string name="category_all">সকল</string>
+    <string name="category_morning_evening">সকাল ও সন্ধ্যা</string>
+    <string name="category_prayer">নামাজ</string>
+    <string name="category_fasting">রোজা</string>
+    <string name="category_travel">ভ্রমণ</string>
+    <string name="category_hardship">বিপদ ও হেফাজত</string>
+    <string name="category_family">পরিবার ও ক্ষমা</string>
+    <string name="category_home">ঘর ও মসজিদ</string>
+    <string name="source">উৎস: %1$s</string>
+    <string name="repetitions">%1$d বার</string>
+
+    <!-- City Picker -->
+    <string name="select_city">শহর নির্বাচন করুন</string>
+    <string name="change_city">শহর পরিবর্তন করুন</string>
+    <string name="search_city_placeholder">৫০,০০০+ শহর বা দেশ খুঁজুন...</string>
+    <string name="use_gps">বর্তমান GPS অবস্থান ব্যবহার করুন</string>
+    <string name="gps_locating">অবস্থান নির্ণয় করা হচ্ছে...</string>
+    <string name="no_cities_found">কোনো শহর পাওয়া যায়নি</string>
+
+    <!-- Settings -->
+    <string name="settings_title">সেটিংস</string>
+    <string name="calculation_section">গণনা পদ্ধতি ও ফিকহ</string>
+    <string name="calc_method">গণনার পদ্ধতি</string>
+    <string name="asr_method">আসরের ফিকহী পদ্ধতি</string>
+    <string name="asr_standard">স্ট্যান্ডার্ড (শাফেয়ী, মালেকী, হাম্বলী)</string>
+    <string name="asr_hanafi">হানাফী (দ্বিগুণ ছায়া)</string>
+    <string name="high_latitude_rule">উচ্চ অক্ষাংশের নিয়ম</string>
+    <string name="high_lat_none">কোনোটি নয়</string>
+    <string name="high_lat_angle">কোণ-ভিত্তিক</string>
+    <string name="high_lat_midnight">মধ্যরাত</string>
+    <string name="high_lat_seventh">রাতের এক-সপ্তমাংশ</string>
+    <string name="dip_horizon">উচ্চতা ও দিগন্ত সমন্বয়</string>
+    <string name="dip_horizon_desc">সমুদ্রপৃষ্ঠের উচ্চতার উপর ভিত্তি করে সময় সামঞ্জস্য</string>
+    <string name="notifications_section">বিজ্ঞপ্তি ও আজান</string>
+    <string name="adhan_notifications">আজানের বিজ্ঞপ্তি</string>
+    <string name="pre_adhan_notifications">আজানের পূর্ববর্তী সতর্কতা (১০ মিনিট)</string>
+    <string name="dnd_mode">নামাজের সময় বিরক্ত করবেন না</string>
+    <string name="dnd_mode_desc">নামাজের সময় স্বয়ংক্রিয়ভাবে ফোন সাইলেন্ট করুন</string>
+    <string name="language_section">ভাষা ও আঞ্চলিক সেটিংস</string>
+    <string name="app_language">অ্যাপের ভাষা</string>
+    <string name="system_default">সিস্টেম ডিফল্ট</string>
+    <string name="updates_section">অ্যাপ আপডেট</string>
+    <string name="check_updates">আপডেট চেক করুন</string>
+    <string name="check_updates_desc">নতুন সংস্করণের জন্য GitHub পরীক্ষা করুন</string>
+    <string name="update_available">নতুন সংস্করণ উপলব্ধ: %1$s</string>
+    <string name="app_up_to_date">অ্যাপটি আপ টু ডেট</string>
+    <string name="download_install">এখনই ডাউনলোড ও ইনস্টল করুন</string>
+    <string name="downloading_progress">ডাউনলোড হচ্ছে: %1$d%%</string>
+    <string name="checking_updates">আপডেট পরীক্ষা করা হচ্ছে...</string>
+    <string name="about_section">নূর প্রে সম্পর্কে</string>
+    <string name="about_desc">ওপেন সোর্স, ১০০% অফলাইন, গোপনীয়তা সুরক্ষিত ইসলামিক সহকারী।</string>
+
+    <!-- Notification Channels -->
+    <string name="adhan_channel_name">আজানের বিজ্ঞপ্তি</string>
+    <string name="adhan_channel_desc">নামাজের সময়ের জন্য উচ্চ অগ্রাধিকার সতর্কতা</string>
+    <string name="pre_adhan_channel_name">আজান পূর্ববর্তী রিমাইন্ডার</string>
+    <string name="pre_adhan_channel_desc">নামাজের ১০-১৫ মিনিট আগে শান্ত রিমাইন্ডার</string>
+</resources>

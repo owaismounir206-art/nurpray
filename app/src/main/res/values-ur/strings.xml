@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App & General -->
+    <string name="app_name">نور پرے</string>
+    <string name="tagline">اوقاتِ نماز، قبلہ رخ اور قرآن پاک آف لائن</string>
+    <string name="app_version">ورژن %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">ہوم</string>
+    <string name="nav_qibla">قبلہ</string>
+    <string name="nav_quran">قرآن</string>
+    <string name="nav_tasbih">تسبیح</string>
+    <string name="nav_dua">دعائیں</string>
+    <string name="nav_settings">ترتیبات</string>
+
+    <!-- Prayers -->
+    <string name="fajr">فجر</string>
+    <string name="sunrise">طلوعِ آفتاب</string>
+    <string name="dhuhr">ظہر</string>
+    <string name="asr">عصر</string>
+    <string name="maghrib">مغرب</string>
+    <string name="isha">عشاء</string>
+
+    <!-- Prayer Status & Times -->
+    <string name="today_prayer_times">آج کے اوقاتِ نماز</string>
+    <string name="next_prayer">اگلی نماز</string>
+    <string name="current_prayer">موجودہ نماز</string>
+    <string name="next_label">اگلی</string>
+    <string name="starts_at">آغاز بوقت %1$s</string>
+    <string name="time_remaining">باقی وقت</string>
+    <string name="time_passed">گزرا ہوا وقت</string>
+    <string name="upcoming_prayer">آنے والی</string>
+
+    <!-- Fasting & Ramadan Tracker -->
+    <string name="fasting_and_iftar">روزہ اور افطار</string>
+    <string name="imsak">امساک</string>
+    <string name="iftar">افطار</string>
+    <string name="imsak_desc">سحری کا اختتام</string>
+    <string name="iftar_desc">افطار کا وقت</string>
+    <string name="fasting_in_progress">روزہ جاری ہے</string>
+    <string name="fasting_completed_today">آج کا روزہ مکمل ہوا ✨</string>
+    <string name="iftar_in">افطار میں %1$s باقی</string>
+    <string name="imsak_in">امساک میں %1$s باقی</string>
+
+    <!-- Qibla Compass & Sensors -->
+    <string name="qibla_compass">قبلہ نما قطب نما</string>
+    <string name="kaaba_direction">سمتِ کعبہ</string>
+    <string name="distance">فاصلہ</string>
+    <string name="distance_km">%1$d کلومیٹر</string>
+    <string name="qibla_aligned">خانہ کعبہ کی سمت درست ہے!</string>
+    <string name="rotate_device">ڈیوائس کو قبلہ رخ گھمائیں</string>
+    <string name="sensor_low_accuracy">کمپاس کی درستگی کم ہے۔ درست کرنے کے لیے موبائل کو 8 کی شکل میں گھمائیں۔</string>
+
+    <!-- Tasbih (Digital Counter) -->
+    <string name="digital_tasbih">ڈیجیٹل تسبیح</string>
+    <string name="reset_counter">دوبارہ شروع کریں</string>
+    <string name="target_reached">ہدف مکمل ہو گیا!</string>
+    <string name="tap_to_count">شمار کرنے کے لیے کہیں بھی ٹیپ کریں</string>
+    <string name="dhikr_subhanallah">سبحان اللہ</string>
+    <string name="dhikr_subhanallah_trans">اللہ پاک ہے</string>
+    <string name="dhikr_alhamdulillah">الحمد للہ</string>
+    <string name="dhikr_alhamdulillah_trans">تمام تعریفیں اللہ کے لیے ہیں</string>
+    <string name="dhikr_allahuakbar">اللہ اکبر</string>
+    <string name="dhikr_allahuakbar_trans">اللہ سب سے بڑا ہے</string>
+    <string name="dhikr_astaghfirullah">استغفر اللہ</string>
+    <string name="dhikr_astaghfirullah_trans">میں اللہ سے بخشش مانگتا ہوں</string>
+    <string name="dhikr_lailahaillallah">لا الہ الا اللہ</string>
+    <string name="dhikr_lailahaillallah_trans">اللہ کے سوا کوئی معبود نہیں</string>
+
+    <!-- Quran -->
+    <string name="holy_quran">قرآن مجید</string>
+    <string name="search_surah">سورۃ تلاش کریں...</string>
+    <string name="verses_count">%1$d آیات</string>
+    <string name="revelation_meccan">مکی</string>
+    <string name="revelation_medinan">مدنی</string>
+    <string name="back_to_surahs">سورتوں کی فہرست پر واپس</string>
+
+    <!-- Du\'a & Supplications -->
+    <string name="dua_title">مسنون دعائیں اور اذکار</string>
+    <string name="dua_subtitle">حصن المسلم</string>
+    <string name="search_dua">دعا تلاش کریں...</string>
+    <string name="category_all">تمام</string>
+    <string name="category_morning_evening">صبح و شام</string>
+    <string name="category_prayer">نماز</string>
+    <string name="category_fasting">روزہ</string>
+    <string name="category_travel">سفر</string>
+    <string name="category_hardship">پریشانی و حفاظت</string>
+    <string name="category_family">اہل و عیال اور بخشش</string>
+    <string name="category_home">گھر اور مسجد</string>
+    <string name="source">حوالہ: %1$s</string>
+    <string name="repetitions">%1$d مرتبہ</string>
+
+    <!-- City Picker -->
+    <string name="select_city">شہر منتخب کریں</string>
+    <string name="change_city">شہر تبدیل کریں</string>
+    <string name="search_city_placeholder">50,000+ شہر یا ملک تلاش کریں...</string>
+    <string name="use_gps">موجودہ GPS لوکیشن استعمال کریں</string>
+    <string name="gps_locating">مقام تلاش کیا جا رہا ہے...</string>
+    <string name="no_cities_found">کوئی شہر نہیں ملا</string>
+
+    <!-- Settings -->
+    <string name="settings_title">ترتیبات</string>
+    <string name="calculation_section">طریقہ کار اور فقہ</string>
+    <string name="calc_method">حساب کا طریقہ</string>
+    <string name="asr_method">عصر کی فقہی رائے</string>
+    <string name="asr_standard">معیاری (شافعی، مالکی، حنبلی)</string>
+    <string name="asr_hanafi">حنفی (سایہ دو گنا)</string>
+    <string name="high_latitude_rule">شمالی خطوں کا اصول</string>
+    <string name="high_lat_none">کوئی نہیں (معیاری)</string>
+    <string name="high_lat_angle">زاویے کی بنیاد پر</string>
+    <string name="high_lat_midnight">نصف شب</string>
+    <string name="high_lat_seventh">رات کا ساتواں حصہ</string>
+    <string name="dip_horizon">بلندی اور افق کی درستگی</string>
+    <string name="dip_horizon_desc">سطح سمندر سے بلندی کے مطابق طلوع و غروب کو درست کریں</string>
+    <string name="notifications_section">اطلاعات اور اذان</string>
+    <string name="adhan_notifications">اذان کے اعلانات</string>
+    <string name="pre_adhan_notifications">قبل از وقت الرٹ (10 منٹ پہلے)</string>
+    <string name="dnd_mode">دورانِ نماز ڈو ناٹ ڈسٹرب</string>
+    <string name="dnd_mode_desc">نماز کے دوران موبائل خودکار طور پر خاموش کریں</string>
+    <string name="language_section">زبان اور علاقائی ترتیبات</string>
+    <string name="app_language">ایپ کی زبان</string>
+    <string name="system_default">سسٹم کی طے شدہ زبان</string>
+    <string name="updates_section">ایپلی کیشن اپ ڈیٹس</string>
+    <string name="check_updates">اپ ڈیٹس چیک کریں</string>
+    <string name="check_updates_desc">نئے ورژن کے لیے GitHub چیک کریں</string>
+    <string name="update_available">نیا ورژن دستیاب ہے: %1$s</string>
+    <string name="app_up_to_date">ایپ اپ ٹو ڈیٹ ہے</string>
+    <string name="download_install">ابھی ڈاؤن لوڈ اور انسٹال کریں</string>
+    <string name="downloading_progress">ڈاؤن لوڈ جاری ہے: %1$d%%</string>
+    <string name="checking_updates">اپ ڈیٹس تلاش کی جا رہی ہیں...</string>
+    <string name="about_section">نور پرے کے بارے میں</string>
+    <string name="about_desc">اوپن سورس، 100% آف لائن اور پرائیویسی محفوظ اسلامی ساتھی۔</string>
+
+    <!-- Notification Channels -->
+    <string name="adhan_channel_name">اذان کی اطلاعات</string>
+    <string name="adhan_channel_desc">اوقاتِ نماز کے لیے فوری الرٹس</string>
+    <string name="pre_adhan_channel_name">قبل از اذان الرٹس</string>
+    <string name="pre_adhan_channel_desc">نماز سے 10-15 منٹ قبل پرسکون یاد دہانی</string>
+</resources>

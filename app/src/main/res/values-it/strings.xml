@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App & General -->
+    <string name="app_name">NurPray</string>
+    <string name="tagline">Orari di Preghiera, Qibla e Corano Offline</string>
+    <string name="app_version">Versione %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_qibla">Qibla</string>
+    <string name="nav_quran">Corano</string>
+    <string name="nav_tasbih">Tasbih</string>
+    <string name="nav_dua">Du\'a</string>
+    <string name="nav_settings">Impostazioni</string>
+
+    <!-- Prayers -->
+    <string name="fajr">Fajr</string>
+    <string name="sunrise">Alba (Shuruq)</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="isha">Isha</string>
+
+    <!-- Prayer Status & Times -->
+    <string name="today_prayer_times">Orari delle Preghiere di Oggi</string>
+    <string name="next_prayer">Prossima Preghiera</string>
+    <string name="current_prayer">Preghiera Attuale</string>
+    <string name="next_label">Prossima</string>
+    <string name="starts_at">Inizio alle %1$s</string>
+    <string name="time_remaining">Tempo rimanente</string>
+    <string name="time_passed">Tempo trascorso</string>
+    <string name="upcoming_prayer">In arrivo</string>
+
+    <!-- Fasting & Ramadan Tracker -->
+    <string name="fasting_and_iftar">Digiuno &amp; Iftar</string>
+    <string name="imsak">Imsak</string>
+    <string name="iftar">Iftar</string>
+    <string name="imsak_desc">Termine Suhoor</string>
+    <string name="iftar_desc">Rottura del Digiuno</string>
+    <string name="fasting_in_progress">Digiuno in corso</string>
+    <string name="fasting_completed_today">Digiuno completato per oggi ✨</string>
+    <string name="iftar_in">Iftar tra %1$s</string>
+    <string name="imsak_in">Imsak tra %1$s</string>
+
+    <!-- Qibla Compass & Sensors -->
+    <string name="qibla_compass">Bussola Qibla</string>
+    <string name="kaaba_direction">Direzione Kaaba</string>
+    <string name="distance">Distanza</string>
+    <string name="distance_km">%1$d km</string>
+    <string name="qibla_aligned">Allineato con la Kaaba!</string>
+    <string name="rotate_device">Ruota il dispositivo verso la Kaaba</string>
+    <string name="sensor_low_accuracy">Accuratezza bussola bassa. Calibra ruotando il dispositivo a forma di 8.</string>
+
+    <!-- Tasbih (Digital Counter) -->
+    <string name="digital_tasbih">Tasbih Digitale</string>
+    <string name="reset_counter">Azzera</string>
+    <string name="target_reached">Obiettivo Raggiunto!</string>
+    <string name="tap_to_count">Tocca ovunque sul pulsante per contare</string>
+    <string name="dhikr_subhanallah">SubhanAllah</string>
+    <string name="dhikr_subhanallah_trans">Gloria ad Allah</string>
+    <string name="dhikr_alhamdulillah">Alhamdulillah</string>
+    <string name="dhikr_alhamdulillah_trans">La lode appartiene ad Allah</string>
+    <string name="dhikr_allahuakbar">Allahu Akbar</string>
+    <string name="dhikr_allahuakbar_trans">Allah è il Più Grande</string>
+    <string name="dhikr_astaghfirullah">Astaghfirullah</string>
+    <string name="dhikr_astaghfirullah_trans">Chiedo perdono ad Allah</string>
+    <string name="dhikr_lailahaillallah">La ilaha illa Allah</string>
+    <string name="dhikr_lailahaillallah_trans">Non vi è altra divinità all\'infuori di Allah</string>
+
+    <!-- Quran -->
+    <string name="holy_quran">Sacro Corano</string>
+    <string name="search_surah">Cerca Sura...</string>
+    <string name="verses_count">%1$d versetti</string>
+    <string name="revelation_meccan">Meccana</string>
+    <string name="revelation_medinan">Medinese</string>
+    <string name="back_to_surahs">Torna alle Sure</string>
+
+    <!-- Du\'a & Supplications -->
+    <string name="dua_title">Suppliche &amp; Du\'a</string>
+    <string name="dua_subtitle">Hisn al-Muslim (La Cittadella del Musulmano)</string>
+    <string name="search_dua">Cerca supplica...</string>
+    <string name="category_all">Tutte</string>
+    <string name="category_morning_evening">Mattino &amp; Sera</string>
+    <string name="category_prayer">Preghiera</string>
+    <string name="category_fasting">Digiuno</string>
+    <string name="category_travel">Viaggio</string>
+    <string name="category_hardship">Difficoltà &amp; Protezione</string>
+    <string name="category_family">Famiglia &amp; Perdono</string>
+    <string name="category_home">Casa &amp; Moschea</string>
+    <string name="source">Fonte: %1$s</string>
+    <string name="repetitions">%1$d ripetizioni</string>
+
+    <!-- City Picker -->
+    <string name="select_city">Seleziona Città</string>
+    <string name="change_city">Cambia Città</string>
+    <string name="search_city_placeholder">Cerca tra oltre 50.000 città o nazione...</string>
+    <string name="use_gps">Usa posizione GPS attuale</string>
+    <string name="gps_locating">Rilevamento posizione GPS in corso...</string>
+    <string name="no_cities_found">Nessuna città trovata</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Impostazioni</string>
+    <string name="calculation_section">Metodo di Calcolo &amp; Fiqh</string>
+    <string name="calc_method">Metodo di Calcolo</string>
+    <string name="asr_method">Metodo Giuridico Asr</string>
+    <string name="asr_standard">Standard (Shafi\'i, Maliki, Hanbali)</string>
+    <string name="asr_hanafi">Hanafi (Rapporto ombra 2:1)</string>
+    <string name="high_latitude_rule">Regola Latitudini Elevate</string>
+    <string name="high_lat_none">Nessuna (Astronomico Standard)</string>
+    <string name="high_lat_angle">Basata sull\'Angolo</string>
+    <string name="high_lat_midnight">Metà della Notte</string>
+    <string name="high_lat_seventh">Un Settimo della Notte</string>
+    <string name="dip_horizon">Correzione Altitudine &amp; Orizzonte</string>
+    <string name="dip_horizon_desc">Aggiusta alba e tramonto in base all\'altitudine sul livello del mare</string>
+    <string name="notifications_section">Notifiche &amp; Adhan</string>
+    <string name="adhan_notifications">Notifiche Adhan</string>
+    <string name="pre_adhan_notifications">Pre-Allarme (10 min prima)</string>
+    <string name="dnd_mode">Non Disturbare durante la Preghiera</string>
+    <string name="dnd_mode_desc">Silenzia automaticamente il dispositivo durante la preghiera</string>
+    <string name="language_section">Lingua &amp; Impostazioni Regionali</string>
+    <string name="app_language">Lingua dell\'Applicazione</string>
+    <string name="system_default">Predefinita di Sistema</string>
+    <string name="updates_section">Aggiornamenti Applicazione</string>
+    <string name="check_updates">Controlla Aggiornamenti</string>
+    <string name="check_updates_desc">Verifica la disponibilità di nuove versioni su GitHub</string>
+    <string name="update_available">Aggiornamento Disponibile: Versione %1$s</string>
+    <string name="app_up_to_date">L\'applicazione è aggiornata</string>
+    <string name="download_install">Scarica e Installa Ora</string>
+    <string name="downloading_progress">Download aggiornamento: %1$d%%</string>
+    <string name="checking_updates">Verifica aggiornamenti in corso...</string>
+    <string name="about_section">Informazioni su NurPray</string>
+    <string name="about_desc">Compagno islamico open-source, 100% offline e rispettoso della privacy con precisione astronomica.</string>
+
+    <!-- Notification Channels -->
+    <string name="adhan_channel_name">Notifiche Adhan</string>
+    <string name="adhan_channel_desc">Avvisi ad alta priorità per l\'inizio dell\'orario di preghiera</string>
+    <string name="pre_adhan_channel_name">Pre-Allarmi Adhan</string>
+    <string name="pre_adhan_channel_desc">Notifiche discrete 10-15 minuti prima della preghiera</string>
+</resources>

@@ -17,9 +17,11 @@ ksp = "2.0.21-1.0.28"
 datastore = "1.1.1"
 playServicesLocation = "21.3.0"
 media3 = "1.4.1"
+appcompat = "1.7.0"
 glance = "1.1.1"
 
 [libraries]
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

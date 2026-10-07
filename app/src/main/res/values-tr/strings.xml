@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App & General -->
+    <string name="app_name">NurPray</string>
+    <string name="tagline">Çevrimdışı Ezan Vakitleri, Kıble ve Kur\'an-ı Kerim</string>
+    <string name="app_version">Sürüm %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Ana Sayfa</string>
+    <string name="nav_qibla">Kıble</string>
+    <string name="nav_quran">Kur\'an</string>
+    <string name="nav_tasbih">Tesbih</string>
+    <string name="nav_dua">Dualar</string>
+    <string name="nav_settings">Ayarlar</string>
+
+    <!-- Prayers -->
+    <string name="fajr">İmsak</string>
+    <string name="sunrise">Güneş</string>
+    <string name="dhuhr">Öğle</string>
+    <string name="asr">İkindi</string>
+    <string name="maghrib">Akşam</string>
+    <string name="isha">Yatsı</string>
+
+    <!-- Prayer Status & Times -->
+    <string name="today_prayer_times">Bugünkü Namaz Vakitleri</string>
+    <string name="next_prayer">Sıradaki Vakit</string>
+    <string name="current_prayer">Mevcut Vakit</string>
+    <string name="next_label">Sıradaki</string>
+    <string name="starts_at">Başlangıç: %1$s</string>
+    <string name="time_remaining">Kalan süre</string>
+    <string name="time_passed">Geçen süre</string>
+    <string name="upcoming_prayer">Yaklaşan Vakit</string>
+
+    <!-- Fasting & Ramadan Tracker -->
+    <string name="fasting_and_iftar">Oruç ve İftar</string>
+    <string name="imsak">İmsak</string>
+    <string name="iftar">İftar</string>
+    <string name="imsak_desc">Sahur Bitişi</string>
+    <string name="iftar_desc">İftar Vakti</string>
+    <string name="fasting_in_progress">Oruç Devam Ediyor</string>
+    <string name="fasting_completed_today">Bugünkü oruç tamamlandı ✨</string>
+    <string name="iftar_in">İftara %1$s kaldı</string>
+    <string name="imsak_in">İmsaka %1$s kaldı</string>
+
+    <!-- Qibla Compass & Sensors -->
+    <string name="qibla_compass">Kıble Pusulası</string>
+    <string name="kaaba_direction">Kâbe Yönü</string>
+    <string name="distance">Mesafe</string>
+    <string name="distance_km">%1$d km</string>
+    <string name="qibla_aligned">Kâbe Yönü Bulundu!</string>
+    <string name="rotate_device">Cihazı Kâbe yönüne çevirin</string>
+    <string name="sensor_low_accuracy">Pusula hassasiyeti düşük. Kalibre etmek için cihazı 8 şeklinde sallayın.</string>
+
+    <!-- Tasbih (Digital Counter) -->
+    <string name="digital_tasbih">Dijital Zikirmatik</string>
+    <string name="reset_counter">Sıfırla</string>
+    <string name="target_reached">Hedefe Ulaşıldı!</string>
+    <string name="tap_to_count">Saymak için ekrana dokunun</string>
+    <string name="dhikr_subhanallah">Sübhanallah</string>
+    <string name="dhikr_subhanallah_trans">Allah her türlü eksiklikten münezzehtir</string>
+    <string name="dhikr_alhamdulillah">Elhamdülillah</string>
+    <string name="dhikr_alhamdulillah_trans">Hamd Allah\'a mahsustur</string>
+    <string name="dhikr_allahuakbar">Allahu Ekber</string>
+    <string name="dhikr_allahuakbar_trans">Allah en büyüktür</string>
+    <string name="dhikr_astaghfirullah">Estağfirullah</string>
+    <string name="dhikr_astaghfirullah_trans">Allah\'tan mağfiret dilerim</string>
+    <string name="dhikr_lailahaillallah">Lâ ilâhe illallah</string>
+    <string name="dhikr_lailahaillallah_trans">Allah\'tan başka ilah yoktur</string>
+
+    <!-- Quran -->
+    <string name="holy_quran">Kur\'an-ı Kerim</string>
+    <string name="search_surah">Sure ara...</string>
+    <string name="verses_count">%1$d ayet</string>
+    <string name="revelation_meccan">Mekkî</string>
+    <string name="revelation_medinan">Medenî</string>
+    <string name="back_to_surahs">Sure Listesine Dön</string>
+
+    <!-- Du\'a & Supplications -->
+    <string name="dua_title">Dualar ve Zikirler</string>
+    <string name="dua_subtitle">Hısnü\'l-Müslim</string>
+    <string name="search_dua">Dua ara...</string>
+    <string name="category_all">Tümü</string>
+    <string name="category_morning_evening">Sabah ve Akşam</string>
+    <string name="category_prayer">Namaz</string>
+    <string name="category_fasting">Oruç</string>
+    <string name="category_travel">Yolculuk</string>
+    <string name="category_hardship">Sıkıntı ve Korunma</string>
+    <string name="category_family">Aile ve Mağfiret</string>
+    <string name="category_home">Ev ve Cami</string>
+    <string name="source">Kaynak: %1$s</string>
+    <string name="repetitions">%1$d tekrar</string>
+
+    <!-- City Picker -->
+    <string name="select_city">Şehir Seç</string>
+    <string name="change_city">Şehri Değiştir</string>
+    <string name="search_city_placeholder">50.000+ şehir veya ülke ara...</string>
+    <string name="use_gps">Mevcut GPS konumunu kullan</string>
+    <string name="gps_locating">Konum alınıyor...</string>
+    <string name="no_cities_found">Şehir bulunamadı</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Ayarlar</string>
+    <string name="calculation_section">Hesaplama Yöntemi ve Fıkıh</string>
+    <string name="calc_method">Hesaplama Metodu</string>
+    <string name="asr_method">İkindi Vakti İçtihadı</string>
+    <string name="asr_standard">Standart (Şafii, Maliki, Hanbeli)</string>
+    <string name="asr_hanafi">Hanefi (Gölge 2 katı)</string>
+    <string name="high_latitude_rule">Yüksek Enlem Kuralı</string>
+    <string name="high_lat_none">Yok (Standart Astronomik)</string>
+    <string name="high_lat_angle">Açıya Dayalı</string>
+    <string name="high_lat_midnight">Gecenin Ortası</string>
+    <string name="high_lat_seventh">Gecenin Yedide Biri</string>
+    <string name="dip_horizon">Yükseklik ve Ufuk Düzeltmesi</string>
+    <string name="dip_horizon_desc">Güneşin doğuş ve batışını deniz seviyesi rakımına göre düzelt</string>
+    <string name="notifications_section">Bildirimler ve Ezan</string>
+    <string name="adhan_notifications">Ezan Bildirimleri</string>
+    <string name="pre_adhan_notifications">Vakit Öncesi Uyarı (10 dk)</string>
+    <string name="dnd_mode">Namaz Esnasında Rahatsız Etme</string>
+    <string name="dnd_mode_desc">Namaz vakitlerinde telefonu otomatik olarak sessize al</string>
+    <string name="language_section">Dil ve Bölgesel Ayarlar</string>
+    <string name="app_language">Uygulama Dili</string>
+    <string name="system_default">Sistem Varsayılanı</string>
+    <string name="updates_section">Uygulama Güncellemeleri</string>
+    <string name="check_updates">Güncellemeleri Denetle</string>
+    <string name="check_updates_desc">GitHub üzerindeki yeni sürümleri kontrol et</string>
+    <string name="update_available">Yeni Güncelleme Mevcut: Sürüm %1$s</string>
+    <string name="app_up_to_date">Uygulama güncel</string>
+    <string name="download_install">Şimdi İndir ve Kur</string>
+    <string name="downloading_progress">Güncelleme indiriliyor: %1$d%%</string>
+    <string name="checking_updates">Güncellemeler denetleniyor...</string>
+    <string name="about_section">NurPray Hakkında</string>
+    <string name="about_desc">Açık kaynaklı, %100 çevrimdışı, astronomik hassasiyete sahip gizlilik odaklı İslami rehber.</string>
+
+    <!-- Notification Channels -->
+    <string name="adhan_channel_name">Ezan Bildirimleri</string>
+    <string name="adhan_channel_desc">Namaz vakitleri için yüksek öncelikli bildirimler</string>
+    <string name="pre_adhan_channel_name">Ezan Öncesi Hatırlatıcılar</string>
+    <string name="pre_adhan_channel_desc">Namazdan 10-15 dakika önce sessiz hatırlatıcılar</string>
+</resources>

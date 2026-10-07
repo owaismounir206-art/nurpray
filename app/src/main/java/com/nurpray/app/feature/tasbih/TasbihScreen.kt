@@ -3,16 +3,10 @@ package com.nurpray.app.feature.tasbih
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
@@ -20,22 +14,21 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nurpray.app.R
 import com.nurpray.app.core.designsystem.AmberGold
-import com.nurpray.app.core.designsystem.EmeraldDeep
 import com.nurpray.app.core.designsystem.EmeraldLight
-
-import com.nurpray.app.core.designsystem.LiquidBackground
-import com.nurpray.app.core.designsystem.LiquidGlassCard
+import com.nurpray.app.core.designsystem.M3Background
+import com.nurpray.app.core.designsystem.M3Card
 
 @Composable
 fun TasbihScreen(
@@ -59,7 +52,7 @@ fun TasbihScreen(
         label = "tasbihProgress"
     )
 
-    LiquidBackground(modifier = modifier) {
+    M3Background(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -73,7 +66,7 @@ fun TasbihScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Tasbih Digitale",
+                    text = stringResource(R.string.digital_tasbih),
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
@@ -82,7 +75,7 @@ fun TasbihScreen(
                 IconButton(onClick = { viewModel.resetActiveCount() }) {
                     Icon(
                         imageVector = Icons.Default.Refresh,
-                        contentDescription = "Azzera contatore",
+                        contentDescription = stringResource(R.string.reset_counter),
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -111,15 +104,15 @@ fun TasbihScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Dhikr Calligraphy & Translation Card - Liquid Glass
-            LiquidGlassCard(
+            // Dhikr Calligraphy & Meaning Card
+            M3Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(26.dp)
+                shape = RoundedCornerShape(20.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp),
+                        .padding(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -145,14 +138,16 @@ fun TasbihScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-            // Large Liquid Counter Glass Card
-            LiquidGlassCard(
+            // Large Material Counter Card
+            val primaryColor = MaterialTheme.colorScheme.primary
+            val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
+            M3Card(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-                shape = RoundedCornerShape(36.dp),
+                shape = RoundedCornerShape(28.dp),
                 isHighlighted = true,
                 highlightColor = EmeraldLight,
                 onClick = {
@@ -168,54 +163,69 @@ fun TasbihScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Shimmering Circular Ring
+                    // Circular Track & Progress Ring
                     Canvas(modifier = Modifier.size(240.dp)) {
-                        val strokeWidth = 14.dp.toPx()
+                        val strokeWidth = 12.dp.toPx()
                         // Track
                         drawCircle(
-                            color = Color.White.copy(alpha = 0.12f),
+                            color = surfaceVariant.copy(alpha = 0.5f),
                             radius = size.minDimension / 2 - strokeWidth / 2,
                             style = Stroke(width = strokeWidth)
                         )
                         // Progress Arc
-                        drawArc(
-                            brush = Brush.sweepGradient(
-                                colors = listOf(EmeraldLight, AmberGold, Color(0xFF64B5F6), EmeraldLight)
-                            ),
-                            startAngle = -90f,
-                            sweepAngle = 360f * animatedProgress,
-                            useCenter = false,
-                            style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-                        )
-                    }
-
-                    // Big Counter Display
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "${activeDhikr.count}",
-                            style = MaterialTheme.typography.displayLarge,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.White
-                        )
-                        if (activeDhikr.target > 0) {
-                            Text(
-                                text = "Obiettivo: ${activeDhikr.target}",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = AmberGold,
-                                fontWeight = FontWeight.SemiBold
+                        if (animatedProgress > 0f) {
+                            drawArc(
+                                color = primaryColor,
+                                startAngle = -90f,
+                                sweepAngle = 360f * animatedProgress,
+                                useCenter = false,
+                                style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                             )
                         }
-                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+
+                    // Count Text Display
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
                         Text(
-                            text = "Tocca per contare",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.White.copy(alpha = 0.6f)
+                            text = "${activeDhikr.count}",
+                            fontSize = 68.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
+                        Text(
+                            text = "/ ${activeDhikr.target}",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        if (activeDhikr.count >= activeDhikr.target) {
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = EmeraldLight.copy(alpha = 0.2f)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.target_reached),
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = EmeraldLight,
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                )
+                            }
+                        } else {
+                            Text(
+                                text = stringResource(R.string.tap_to_count),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                            )
+                        }
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

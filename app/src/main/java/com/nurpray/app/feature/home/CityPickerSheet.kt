@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.nurpray.app.R
 import com.nurpray.app.data.local.database.entity.CityEntity
 import com.nurpray.app.domain.model.LocationCoordinates
 
@@ -52,12 +54,12 @@ fun CityPickerSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Seleziona Città nel Mondo",
+                    text = stringResource(R.string.select_city),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
                 IconButton(onClick = onDismissRequest) {
-                    Icon(Icons.Default.Close, contentDescription = "Chiudi")
+                    Icon(Icons.Default.Close, contentDescription = "Close")
                 }
             }
 
@@ -67,12 +69,12 @@ fun CityPickerSheet(
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = onSearchQueryChange,
-                placeholder = { Text("Cerca qualsiasi città o comune nel mondo...") },
+                placeholder = { Text(stringResource(R.string.search_city_placeholder)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                 trailingIcon = {
                     if (searchQuery.isNotEmpty()) {
                         IconButton(onClick = { onSearchQueryChange("") }) {
-                            Icon(Icons.Default.Close, contentDescription = "Cancella")
+                            Icon(Icons.Default.Close, contentDescription = "Clear")
                         }
                     }
                 },
@@ -100,7 +102,7 @@ fun CityPickerSheet(
                     } else {
                         Icon(Icons.Default.MyLocation, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(modifier = Modifier.width(6.dp))
-                        Text("Rileva GPS", fontSize = 13.sp)
+                        Text(stringResource(R.string.use_gps), fontSize = 13.sp)
                     }
                 }
 
@@ -136,7 +138,7 @@ fun CityPickerSheet(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Ricerca in corso in tutti i paesi del mondo...",
+                        text = stringResource(R.string.no_cities_found),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

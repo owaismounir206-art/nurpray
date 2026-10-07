@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App & General -->
+    <string name="app_name">NurPray</string>
+    <string name="tagline">Jadwal Sholat, Arah Kiblat &amp; Al-Qur\'an Offline</string>
+    <string name="app_version">Versi %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Beranda</string>
+    <string name="nav_qibla">Kiblat</string>
+    <string name="nav_quran">Al-Qur\'an</string>
+    <string name="nav_tasbih">Tasbih</string>
+    <string name="nav_dua">Doa</string>
+    <string name="nav_settings">Pengaturan</string>
+
+    <!-- Prayers -->
+    <string name="fajr">Subuh</string>
+    <string name="sunrise">Terbit (Syuruq)</string>
+    <string name="dhuhr">Dzuhur</string>
+    <string name="asr">Ashar</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="isha">Isya</string>
+
+    <!-- Prayer Status & Times -->
+    <string name="today_prayer_times">Jadwal Sholat Hari Ini</string>
+    <string name="next_prayer">Sholat Berikutnya</string>
+    <string name="current_prayer">Sholat Saat Ini</string>
+    <string name="next_label">Berikutnya</string>
+    <string name="starts_at">Mulai pukul %1$s</string>
+    <string name="time_remaining">Waktu tersisa</string>
+    <string name="time_passed">Waktu berlalu</string>
+    <string name="upcoming_prayer">Akan Datang</string>
+
+    <!-- Fasting & Ramadan Tracker -->
+    <string name="fasting_and_iftar">Puasa &amp; Buka Puasa</string>
+    <string name="imsak">Imsak</string>
+    <string name="iftar">Buka Puasa</string>
+    <string name="imsak_desc">Batas Akhir Sahur</string>
+    <string name="iftar_desc">Waktu Berbuka</string>
+    <string name="fasting_in_progress">Sedang Berpuasa</string>
+    <string name="fasting_completed_today">Puasa hari ini telah selesai ✨</string>
+    <string name="iftar_in">Buka puasa dalam %1$s</string>
+    <string name="imsak_in">Imsak dalam %1$s</string>
+
+    <!-- Qibla Compass & Sensors -->
+    <string name="qibla_compass">Kompas Kiblat</string>
+    <string name="kaaba_direction">Arah Ka\'bah</string>
+    <string name="distance">Jarak</string>
+    <string name="distance_km">%1$d km</string>
+    <string name="qibla_aligned">Tepat Menghadap Ka\'bah!</string>
+    <string name="rotate_device">Putar perangkat ke arah Ka\'bah</string>
+    <string name="sensor_low_accuracy">Akurasi kompas rendah. Putar perangkat membentuk angka 8 untuk kalibrasi.</string>
+
+    <!-- Tasbih (Digital Counter) -->
+    <string name="digital_tasbih">Tasbih Digital</string>
+    <string name="reset_counter">Reset</string>
+    <string name="target_reached">Target Tercapai!</string>
+    <string name="tap_to_count">Ketuk di mana saja untuk menghitung</string>
+    <string name="dhikr_subhanallah">Subhanallah</string>
+    <string name="dhikr_subhanallah_trans">Maha Suci Allah</string>
+    <string name="dhikr_alhamdulillah">Alhamdulillah</string>
+    <string name="dhikr_alhamdulillah_trans">Segala puji bagi Allah</string>
+    <string name="dhikr_allahuakbar">Allahu Akbar</string>
+    <string name="dhikr_allahuakbar_trans">Allah Maha Besar</string>
+    <string name="dhikr_astaghfirullah">Astaghfirullah</string>
+    <string name="dhikr_astaghfirullah_trans">Aku memohon ampun kepada Allah</string>
+    <string name="dhikr_lailahaillallah">La ilaha illallah</string>
+    <string name="dhikr_lailahaillallah_trans">Tiada Tuhan selain Allah</string>
+
+    <!-- Quran -->
+    <string name="holy_quran">Al-Qur\'an Al-Karim</string>
+    <string name="search_surah">Cari surah...</string>
+    <string name="verses_count">%1$d ayat</string>
+    <string name="revelation_meccan">Makkiyah</string>
+    <string name="revelation_medinan">Madaniyah</string>
+    <string name="back_to_surahs">Kembali ke Daftar Surah</string>
+
+    <!-- Du\'a & Supplications -->
+    <string name="dua_title">Doa &amp; Dzikir Harian</string>
+    <string name="dua_subtitle">Hisnul Muslim</string>
+    <string name="search_dua">Cari doa...</string>
+    <string name="category_all">Semua</string>
+    <string name="category_morning_evening">Pagi &amp; Petang</string>
+    <string name="category_prayer">Sholat</string>
+    <string name="category_fasting">Puasa</string>
+    <string name="category_travel">Perjalanan</string>
+    <string name="category_hardship">Kesulitan &amp; Perlindungan</string>
+    <string name="category_family">Keluarga &amp; Ampunan</string>
+    <string name="category_home">Rumah &amp; Masjid</string>
+    <string name="source">Sumber: %1$s</string>
+    <string name="repetitions">%1$d kali</string>
+
+    <!-- City Picker -->
+    <string name="select_city">Pilih Kota</string>
+    <string name="change_city">Ganti Kota</string>
+    <string name="search_city_placeholder">Cari 50.000+ kota atau negara...</string>
+    <string name="use_gps">Gunakan lokasi GPS saat ini</string>
+    <string name="gps_locating">Mendapatkan lokasi GPS...</string>
+    <string name="no_cities_found">Kota tidak ditemukan</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Pengaturan</string>
+    <string name="calculation_section">Metode Perhitungan &amp; Fikih</string>
+    <string name="calc_method">Metode Perhitungan</string>
+    <string name="asr_method">Metode Fikih Ashar</string>
+    <string name="asr_standard">Standar (Syafi\'i, Maliki, Hanbali)</string>
+    <string name="asr_hanafi">Hanafi (Bayangan 2 kali lipat)</string>
+    <string name="high_latitude_rule">Aturan Lintang Tinggi</string>
+    <string name="high_lat_none">Tidak Ada (Astronomis Standar)</string>
+    <string name="high_lat_angle">Berdasarkan Sudut</string>
+    <string name="high_lat_midnight">Tengah Malam</string>
+    <string name="high_lat_seventh">Sepertujuh Malam</string>
+    <string name="dip_horizon">Koreksi Ketinggian &amp; Horizon</string>
+    <string name="dip_horizon_desc">Sesuaikan waktu terbit dan tenggelam berdasarkan ketinggian mdpl</string>
+    <string name="notifications_section">Notifikasi &amp; Adzan</string>
+    <string name="adhan_notifications">Notifikasi Adzan</string>
+    <string name="pre_adhan_notifications">Pengingat Sebelum Adzan (10 menit)</string>
+    <string name="dnd_mode">Jangan Ganggu Saat Sholat</string>
+    <string name="dnd_mode_desc">Bisukan ponsel secara otomatis saat waktu sholat tiba</string>
+    <string name="language_section">Bahasa &amp; Pengaturan Regional</string>
+    <string name="app_language">Bahasa Aplikasi</string>
+    <string name="system_default">Default Sistem</string>
+    <string name="updates_section">Pembaruan Aplikasi</string>
+    <string name="check_updates">Periksa Pembaruan</string>
+    <string name="check_updates_desc">Cek versi terbaru dari GitHub</string>
+    <string name="update_available">Pembaruan Tersedia: Versi %1$s</string>
+    <string name="app_up_to_date">Aplikasi sudah versi terbaru</string>
+    <string name="download_install">Unduh &amp; Pasang Sekarang</string>
+    <string name="downloading_progress">Mengunduh pembaruan: %1$d%%</string>
+    <string name="checking_updates">Memeriksa pembaruan...</string>
+    <string name="about_section">Tentang NurPray</string>
+    <string name="about_desc">Aplikasi Islami open-source, 100% offline, mengutamakan privasi dengan akurasi astronomis tinggi.</string>
+
+    <!-- Notification Channels -->
+    <string name="adhan_channel_name">Notifikasi Adzan</string>
+    <string name="adhan_channel_desc">Peringatan prioritas tinggi untuk jadwal sholat</string>
+    <string name="pre_adhan_channel_name">Peringatan Pra-Adzan</string>
+    <string name="pre_adhan_channel_desc">Pengingat hening 10-15 menit sebelum sholat</string>
+</resources>

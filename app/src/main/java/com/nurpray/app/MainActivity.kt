@@ -35,17 +35,20 @@ import com.nurpray.app.feature.tasbih.TasbihViewModel
 
 import com.nurpray.app.feature.dua.DuaScreen
 import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.res.stringResource
+import com.nurpray.app.R
 
-enum class AppDestination(val label: String, val icon: ImageVector) {
-    HOME("Home", Icons.Default.Home),
-    QIBLA("Qibla", Icons.Default.Explore),
-    QURAN("Corano", Icons.AutoMirrored.Filled.MenuBook),
-    TASBIH("Tasbih", Icons.Default.Fingerprint),
-    DUA("Du'a", Icons.Default.Favorite),
-    SETTINGS("Impostazioni", Icons.Default.Settings)
+enum class AppDestination(val labelResId: Int, val icon: ImageVector) {
+    HOME(R.string.nav_home, Icons.Default.Home),
+    QIBLA(R.string.nav_qibla, Icons.Default.Explore),
+    QURAN(R.string.nav_quran, Icons.AutoMirrored.Filled.MenuBook),
+    TASBIH(R.string.nav_tasbih, Icons.Default.Fingerprint),
+    DUA(R.string.nav_dua, Icons.Default.Favorite),
+    SETTINGS(R.string.nav_settings, Icons.Default.Settings)
 }
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val homeViewModel: HomeViewModel by viewModels()
     private val qiblaViewModel: QiblaViewModel by viewModels()
@@ -92,8 +95,8 @@ class MainActivity : ComponentActivity() {
                     navigationSuiteItems = {
                         AppDestination.values().forEach { destination ->
                             item(
-                                icon = { Icon(destination.icon, contentDescription = destination.label) },
-                                label = { Text(destination.label) },
+                                icon = { Icon(destination.icon, contentDescription = stringResource(destination.labelResId)) },
+                                label = { Text(stringResource(destination.labelResId)) },
                                 selected = destination == currentDestination,
                                 onClick = { currentDestination = destination }
                             )

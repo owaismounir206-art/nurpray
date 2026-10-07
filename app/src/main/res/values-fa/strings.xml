@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App & General -->
+    <string name="app_name">نور نماز</string>
+    <string name="tagline">اوقات شرعی، قبله‌نما و قرآن کریم آفلاین</string>
+    <string name="app_version">نسخه %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">خانه</string>
+    <string name="nav_qibla">قبله</string>
+    <string name="nav_quran">قرآن</string>
+    <string name="nav_tasbih">تسبیح</string>
+    <string name="nav_dua">دعاها</string>
+    <string name="nav_settings">تنظیمات</string>
+
+    <!-- Prayers -->
+    <string name="fajr">صبح (فجر)</string>
+    <string name="sunrise">طلوع آفتاب</string>
+    <string name="dhuhr">ظهر</string>
+    <string name="asr">عصر</string>
+    <string name="maghrib">مغرب</string>
+    <string name="isha">عشاء</string>
+
+    <!-- Prayer Status & Times -->
+    <string name="today_prayer_times">اوقات شرعی امروز</string>
+    <string name="next_prayer">نماز بعدی</string>
+    <string name="current_prayer">نماز فعلی</string>
+    <string name="next_label">بعدی</string>
+    <string name="starts_at">شروع در ساعت %1$s</string>
+    <string name="time_remaining">زمان باقیمانده</string>
+    <string name="time_passed">زمان سپری‌شده</string>
+    <string name="upcoming_prayer">در پیش رو</string>
+
+    <!-- Fasting & Ramadan Tracker -->
+    <string name="fasting_and_iftar">روزه و افطار</string>
+    <string name="imsak">امساک</string>
+    <string name="iftar">افطار</string>
+    <string name="imsak_desc">پایان سحری</string>
+    <string name="iftar_desc">زمان افطار</string>
+    <string name="fasting_in_progress">در حال روزه‌داری</string>
+    <string name="fasting_completed_today">روزه امروز با موفقیت به پایان رسید ✨</string>
+    <string name="iftar_in">افطار تا %1$s دیگر</string>
+    <string name="imsak_in">امساک تا %1$s دیگر</string>
+
+    <!-- Qibla Compass & Sensors -->
+    <string name="qibla_compass">قبله‌نما</string>
+    <string name="kaaba_direction">جهت کعبه</string>
+    <string name="distance">فاصله</string>
+    <string name="distance_km">%1$d کیلومتر</string>
+    <string name="qibla_aligned">جهت کعبه تنظیم شد!</string>
+    <string name="rotate_device">دستگاه را به سمت کعبه بچرخانید</string>
+    <string name="sensor_low_accuracy">دقت قطب‌نما پایین است. گوشی را به شکل عدد ۸ انگلیسی بچرخانید.</string>
+
+    <!-- Tasbih (Digital Counter) -->
+    <string name="digital_tasbih">تسبیح دیجیتال</string>
+    <string name="reset_counter">تنظیم مجدد</string>
+    <string name="target_reached">هدف تکمیل شد!</string>
+    <string name="tap_to_count">برای شمارش لمس کنید</string>
+    <string name="dhikr_subhanallah">سبحان الله</string>
+    <string name="dhikr_subhanallah_trans">خداوند منزه و پاک است</string>
+    <string name="dhikr_alhamdulillah">الحمد لله</string>
+    <string name="dhikr_alhamdulillah_trans">ستایش مخصوص خداوند است</string>
+    <string name="dhikr_allahuakbar">الله اکبر</string>
+    <string name="dhikr_allahuakbar_trans">خداوند بزرگ‌ترین است</string>
+    <string name="dhikr_astaghfirullah">استغفر الله</string>
+    <string name="dhikr_astaghfirullah_trans">از خداوند طلب بخشش دارم</string>
+    <string name="dhikr_lailahaillallah">لا اله الا الله</string>
+    <string name="dhikr_lailahaillallah_trans">هیچ معبودی جز خدا نیست</string>
+
+    <!-- Quran -->
+    <string name="holy_quran">قرآن کریم</string>
+    <string name="search_surah">جستجوی سوره...</string>
+    <string name="verses_count">%1$d آیه</string>
+    <string name="revelation_meccan">مکی</string>
+    <string name="revelation_medinan">مدنی</string>
+    <string name="back_to_surahs">بازگشت به فهرست سوره‌ها</string>
+
+    <!-- Du\'a & Supplications -->
+    <string name="dua_title">ادعیه و اذکار</string>
+    <string name="dua_subtitle">حصن المسلم</string>
+    <string name="search_dua">جستجوی دعا...</string>
+    <string name="category_all">همه</string>
+    <string name="category_morning_evening">صبح و شام</string>
+    <string name="category_prayer">نماز</string>
+    <string name="category_fasting">روزه</string>
+    <string name="category_travel">سفر</string>
+    <string name="category_hardship">سختی‌ها و حفاظت</string>
+    <string name="category_family">خانواده و استغفار</string>
+    <string name="category_home">خانه و مسجد</string>
+    <string name="source">منبع: %1$s</string>
+    <string name="repetitions">%1$d بار</string>
+
+    <!-- City Picker -->
+    <string name="select_city">انتخاب شهر</string>
+    <string name="change_city">تغییر شهر</string>
+    <string name="search_city_placeholder">جستجو در بین ۵۰,۰۰۰+ شهر یا کشور...</string>
+    <string name="use_gps">استفاده از موقعیت مکانی GPS</string>
+    <string name="gps_locating">در حال یافتن موقعیت مکانی...</string>
+    <string name="no_cities_found">شهری یافت نشد</string>
+
+    <!-- Settings -->
+    <string name="settings_title">تنظیمات</string>
+    <string name="calculation_section">روش محاسبه و فقه</string>
+    <string name="calc_method">روش محاسبه</string>
+    <string name="asr_method">مذهب فقهی نماز عصر</string>
+    <string name="asr_standard">استاندارد (شافعی، مالکی، حنبلی)</string>
+    <string name="asr_hanafi">حنفی (سایه دو برابر)</string>
+    <string name="high_latitude_rule">قاعده عرض‌های جغرافیایی بالا</string>
+    <string name="high_lat_none">هیچکدام (استاندارد نجومی)</string>
+    <string name="high_lat_angle">بر اساس زاویه</string>
+    <string name="high_lat_midnight">نیمه‌شب</string>
+    <string name="high_lat_seventh">یک هفتم شب</string>
+    <string name="dip_horizon">تصحیح ارتفاع و افق</string>
+    <string name="dip_horizon_desc">تنظیم طلوع و غروب بر اساس ارتفاع از سطح دریا</string>
+    <string name="notifications_section">اعلان‌ها و اذان</string>
+    <string name="adhan_notifications">اعلان‌های اذان</string>
+    <string name="pre_adhan_notifications">هشدار قبل از اذان (۱۰ دقیقه)</string>
+    <string name="dnd_mode">حالت سکوت هنگام نماز</string>
+    <string name="dnd_mode_desc">بی‌صدا کردن خودکار تلفن همراه در هنگام نماز</string>
+    <string name="language_section">زبان و تنظیمات منطقه‌ای</string>
+    <string name="app_language">زبان برنامه</string>
+    <string name="system_default">زبان پیش‌فرض سیستم</string>
+    <string name="updates_section">به‌روزرسانی‌ها</string>
+    <string name="check_updates">بررسی به‌روزرسانی</string>
+    <string name="check_updates_desc">بررسی نسخه‌های جدید در GitHub</string>
+    <string name="update_available">نسخه جدید در دسترس است: %1$s</string>
+    <string name="app_up_to_date">برنامه به‌روز است</string>
+    <string name="download_install">دانلود و نصب نسخه جدید</string>
+    <string name="downloading_progress">در حال دریافت: %1$d%%</string>
+    <string name="checking_updates">در حال بررسی نسخه جدید...</string>
+    <string name="about_section">درباره نور نماز</string>
+    <string name="about_desc">همراه اسلامی متن‌باز، کاملاً آفلاین و متعهد به حریم خصوصی با دقت نجومی بالا.</string>
+
+    <!-- Notification Channels -->
+    <string name="adhan_channel_name">اعلان‌های اذان</string>
+    <string name="adhan_channel_desc">هشدارهای با اولویت بالا برای اوقات شرعی</string>
+    <string name="pre_adhan_channel_name">هشدارهای پیش از اذان</string>
+    <string name="pre_adhan_channel_desc">یادآوری آرام ۱۰ تا ۱۵ دقیقه پیش از اذان</string>
+</resources>
