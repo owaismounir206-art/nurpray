@@ -7,7 +7,9 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
@@ -27,9 +29,9 @@ import androidx.compose.ui.unit.sp
 import com.nurpray.app.R
 import com.nurpray.app.core.designsystem.AmberGold
 import com.nurpray.app.core.designsystem.EmeraldLight
-import com.nurpray.app.core.designsystem.M3Background
 import com.nurpray.app.core.designsystem.M3Card
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TasbihScreen(
     viewModel: TasbihViewModel,
@@ -52,37 +54,42 @@ fun TasbihScreen(
         label = "tasbihProgress"
     )
 
-    M3Background(modifier = modifier) {
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.digital_tasbih),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                actions = {
+                    IconButton(onClick = { viewModel.resetActiveCount() }) {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = stringResource(R.string.reset_counter)
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground
+                )
+            )
+        },
+        modifier = modifier
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Top Bar
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.digital_tasbih),
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-
-                IconButton(onClick = { viewModel.resetActiveCount() }) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = stringResource(R.string.reset_counter),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
             // Dhikr Selector Chips
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -102,33 +109,31 @@ fun TasbihScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
             // Dhikr Calligraphy & Meaning Card
             M3Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20.dp)
+                shape = RoundedCornerShape(20.dp),
+                contentPadding = PaddingValues(16.dp)
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = activeDhikr.arabicText,
-                        fontSize = 32.sp,
+                        fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = activeDhikr.transliteration,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onSurface
                     )
+                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = activeDhikr.translation,
                         style = MaterialTheme.typography.bodyMedium,
@@ -138,18 +143,17 @@ fun TasbihScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
             // Large Material Counter Card
             val primaryColor = MaterialTheme.colorScheme.primary
             val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
             M3Card(
                 modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .height(260.dp),
                 shape = RoundedCornerShape(28.dp),
                 isHighlighted = true,
                 highlightColor = EmeraldLight,
+                contentPadding = PaddingValues(16.dp),
                 onClick = {
                     val reached = viewModel.incrementCount()
                     if (reached) {
@@ -164,7 +168,7 @@ fun TasbihScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     // Circular Track & Progress Ring
-                    Canvas(modifier = Modifier.size(240.dp)) {
+                    Canvas(modifier = Modifier.size(210.dp)) {
                         val strokeWidth = 12.dp.toPx()
                         // Track
                         drawCircle(
@@ -191,7 +195,7 @@ fun TasbihScreen(
                     ) {
                         Text(
                             text = "${activeDhikr.count}",
-                            fontSize = 68.sp,
+                            fontSize = 56.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -210,7 +214,7 @@ fun TasbihScreen(
                             ) {
                                 Text(
                                     text = stringResource(R.string.target_reached),
-                                    style = MaterialTheme.typography.labelMedium,
+                                    style = MaterialTheme.typography.labelSmall,
                                     fontWeight = FontWeight.Bold,
                                     color = EmeraldLight,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -226,6 +230,8 @@ fun TasbihScreen(
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

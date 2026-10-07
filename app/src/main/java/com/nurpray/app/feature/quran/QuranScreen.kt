@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import com.nurpray.app.R
 import com.nurpray.app.core.designsystem.AmberGold
 import com.nurpray.app.core.designsystem.EmeraldLight
-import com.nurpray.app.core.designsystem.M3Background
 import com.nurpray.app.core.designsystem.M3Card
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,7 +35,7 @@ fun QuranScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = {
@@ -58,149 +57,161 @@ fun QuranScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground
                 )
             )
         },
         modifier = modifier
     ) { innerPadding ->
-        M3Background {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(horizontal = 16.dp)
+        if (uiState.selectedSurah == null) {
+            val filteredSurahs = remember(uiState.surahs, uiState.searchQuery) {
+                uiState.surahs.filter {
+                    it.transliteration.contains(uiState.searchQuery, ignoreCase = true) ||
+                            it.englishMeaning.contains(uiState.searchQuery, ignoreCase = true) ||
+                            it.number.toString().contains(uiState.searchQuery)
+                }
+            }
+
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(
+                    top = innerPadding.calculateTopPadding() + 4.dp,
+                    bottom = innerPadding.calculateBottomPadding() + 16.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                ),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                if (uiState.selectedSurah == null) {
-                    // Surah Index List
+                item {
                     OutlinedTextField(
                         value = uiState.searchQuery,
                         onValueChange = { viewModel.updateSearchQuery(it) },
                         placeholder = { Text(stringResource(R.string.search_surah)) },
                         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 6.dp),
                         shape = RoundedCornerShape(16.dp),
                         singleLine = true
                     )
+                }
 
-                    val filteredSurahs = uiState.surahs.filter {
-                        it.transliteration.contains(uiState.searchQuery, ignoreCase = true) ||
-                                it.englishMeaning.contains(uiState.searchQuery, ignoreCase = true) ||
-                                it.number.toString().contains(uiState.searchQuery)
-                    }
-
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                items(filteredSurahs, key = { it.number }) { surah ->
+                    M3Card(
+                        onClick = { viewModel.selectSurah(surah) },
+                        shape = RoundedCornerShape(16.dp),
+                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 10.dp)
                     ) {
-                        items(filteredSurahs) { surah ->
-                            M3Card(
-                                onClick = { viewModel.selectSurah(surah) },
-                                shape = RoundedCornerShape(16.dp)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.weight(1f)
                             ) {
-                                Row(
+                                Box(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(4.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween
+                                        .size(36.dp)
+                                        .clip(CircleShape)
+                                        .background(AmberGold.copy(alpha = 0.16f)),
+                                    contentAlignment = Alignment.Center
                                 ) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Box(
-                                            modifier = Modifier
-                                                .size(38.dp)
-                                                .clip(CircleShape)
-                                                .background(AmberGold.copy(alpha = 0.18f)),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            Text(
-                                                text = "${surah.number}",
-                                                style = MaterialTheme.typography.labelMedium,
-                                                fontWeight = FontWeight.Bold,
-                                                color = AmberGold
-                                            )
-                                        }
-                                        Spacer(modifier = Modifier.width(16.dp))
-                                        Column {
-                                            Text(
-                                                text = surah.transliteration,
-                                                style = MaterialTheme.typography.titleMedium,
-                                                fontWeight = FontWeight.SemiBold
-                                            )
-                                            Text(
-                                                text = "${surah.englishMeaning} • ${stringResource(R.string.verses_count, surah.totalVerses)}",
-                                                style = MaterialTheme.typography.bodySmall,
-                                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                                            )
-                                        }
-                                    }
-
                                     Text(
-                                        text = surah.arabicName,
-                                        fontSize = 22.sp,
+                                        text = "${surah.number}",
+                                        style = MaterialTheme.typography.labelMedium,
                                         fontWeight = FontWeight.Bold,
-                                        color = EmeraldLight
+                                        color = AmberGold
+                                    )
+                                }
+                                Spacer(modifier = Modifier.width(14.dp))
+                                Column {
+                                    Text(
+                                        text = surah.transliteration,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                    Text(
+                                        text = "${surah.englishMeaning} • ${stringResource(R.string.verses_count, surah.totalVerses)}",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                             }
+
+                            Text(
+                                text = surah.arabicName,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = EmeraldLight
+                            )
                         }
                     }
-                } else {
-                    // Ayah by Ayah Reader View
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                }
+            }
+        } else {
+            // Ayah by Ayah Reader View
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(
+                    top = innerPadding.calculateTopPadding() + 8.dp,
+                    bottom = innerPadding.calculateBottomPadding() + 20.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                ),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(uiState.ayahs, key = { it.numberInSurah }) { ayah ->
+                    M3Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(18.dp),
+                        contentPadding = PaddingValues(16.dp)
                     ) {
-                        items(uiState.ayahs) { ayah ->
-                            M3Card(
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(18.dp)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = EmeraldLight.copy(alpha = 0.16f)
                             ) {
-                                Column(modifier = Modifier.padding(4.dp)) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Surface(
-                                            shape = RoundedCornerShape(8.dp),
-                                            color = EmeraldLight.copy(alpha = 0.16f)
-                                        ) {
-                                            Text(
-                                                text = "Ayah ${ayah.numberInSurah}",
-                                                style = MaterialTheme.typography.labelSmall,
-                                                fontWeight = FontWeight.Bold,
-                                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                                                color = EmeraldLight
-                                            )
-                                        }
-                                    }
-
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-                                    // Arabic Ayah Text
-                                    Text(
-                                        text = ayah.arabicText,
-                                        fontSize = 26.sp,
-                                        lineHeight = 42.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.onSurface,
-                                        textAlign = TextAlign.End,
-                                        modifier = Modifier.fillMaxWidth()
-                                    )
-
-                                    Spacer(modifier = Modifier.height(12.dp))
-                                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-                                    // Translation
-                                    Text(
-                                        text = ayah.italianTranslation,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        lineHeight = 22.sp
-                                    )
-                                }
+                                Text(
+                                    text = "Ayah ${ayah.numberInSurah}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                    color = EmeraldLight
+                                )
                             }
                         }
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        // Arabic Ayah Text
+                        Text(
+                            text = ayah.arabicText,
+                            fontSize = 24.sp,
+                            lineHeight = 40.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            textAlign = TextAlign.End,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(10.dp))
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        // Translation
+                        Text(
+                            text = ayah.italianTranslation,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            lineHeight = 22.sp
+                        )
                     }
                 }
             }

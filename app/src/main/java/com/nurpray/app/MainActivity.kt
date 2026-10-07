@@ -91,12 +91,28 @@ class MainActivity : AppCompatActivity() {
             NurPrayTheme {
                 var currentDestination by remember { mutableStateOf(AppDestination.HOME) }
 
+                val bottomNavDestinations = remember {
+                    listOf(
+                        AppDestination.HOME,
+                        AppDestination.QIBLA,
+                        AppDestination.QURAN,
+                        AppDestination.TASBIH,
+                        AppDestination.DUA
+                    )
+                }
+
                 NavigationSuiteScaffold(
                     navigationSuiteItems = {
-                        AppDestination.values().forEach { destination ->
+                        bottomNavDestinations.forEach { destination ->
                             item(
                                 icon = { Icon(destination.icon, contentDescription = stringResource(destination.labelResId)) },
-                                label = { Text(stringResource(destination.labelResId)) },
+                                label = {
+                                    Text(
+                                        text = stringResource(destination.labelResId),
+                                        maxLines = 1,
+                                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                                    )
+                                },
                                 selected = destination == currentDestination,
                                 onClick = { currentDestination = destination }
                             )

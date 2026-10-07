@@ -114,7 +114,7 @@ fun CityPickerSheet(
                 ) {
                     Icon(Icons.Default.EditLocation, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Coordinate", fontSize = 13.sp)
+                    Text(stringResource(R.string.change_city), fontSize = 13.sp)
                 }
             }
 
@@ -122,7 +122,7 @@ fun CityPickerSheet(
 
             // Cities List
             Text(
-                text = if (searchQuery.isEmpty()) "Città principali nel mondo" else "Risultati per \"$searchQuery\"",
+                text = if (searchQuery.isEmpty()) stringResource(R.string.select_city) else searchQuery,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold

@@ -39,7 +39,7 @@ fun SettingsScreen(
     var showLanguageDialog by remember { mutableStateOf(false) }
 
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = {
@@ -55,88 +55,97 @@ fun SettingsScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground
                 )
             )
         },
         modifier = modifier
     ) { innerPadding ->
-        M3Background {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                // Language Selection Section
-                item {
-                    Text(
-                        text = stringResource(R.string.language_section),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Bold
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                top = innerPadding.calculateTopPadding() + 4.dp,
+                bottom = innerPadding.calculateBottomPadding() + 24.dp,
+                start = 16.dp,
+                end = 16.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Language Selection Section
+            item {
+                Text(
+                    text = stringResource(R.string.language_section),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            item {
+                M3Card(
+                    shape = RoundedCornerShape(18.dp),
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    val currentLangCode by viewModel.currentLanguage.collectAsState()
+                    val currentLang = APP_SUPPORTED_LANGUAGES.find { it.code == currentLangCode }
+                        ?: APP_SUPPORTED_LANGUAGES.first()
+
+                    SettingItem(
+                        title = stringResource(R.string.app_language),
+                        subtitle = "${currentLang.displayName} (${currentLang.nativeName})",
+                        onClick = { showLanguageDialog = true }
                     )
                 }
+            }
 
-                item {
-                    M3Card(shape = RoundedCornerShape(20.dp)) {
-                        val currentLangCode by viewModel.currentLanguage.collectAsState()
-                        val currentLang = APP_SUPPORTED_LANGUAGES.find { it.code == currentLangCode }
-                            ?: APP_SUPPORTED_LANGUAGES.first()
+            // Astronomical Calculation Section
+            item {
+                Text(
+                    text = stringResource(R.string.calculation_section),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
+                )
+            }
 
-                        SettingItem(
-                            title = stringResource(R.string.app_language),
-                            subtitle = "${currentLang.displayName} (${currentLang.nativeName})",
-                            onClick = { showLanguageDialog = true }
-                        )
-                    }
-                }
+            item {
+                M3Card(
+                    shape = RoundedCornerShape(18.dp),
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    // Method Selector
+                    SettingItem(
+                        title = stringResource(R.string.calc_method),
+                        subtitle = uiState.selectedMethod.title,
+                        onClick = { showMethodDialog = true }
+                    )
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
 
-                // Astronomical Calculation Section
-                item {
-                    Text(
-                        text = stringResource(R.string.calculation_section),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Bold
+                    // Asr Juristic Selector
+                    SettingItem(
+                        title = stringResource(R.string.asr_method),
+                        subtitle = if (uiState.selectedAsrMethod == AsrJuristicMethod.HANAFI)
+                            stringResource(R.string.asr_hanafi)
+                        else
+                            stringResource(R.string.asr_standard),
+                        onClick = { showAsrDialog = true }
+                    )
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+
+                    // High Latitude Rule
+                    SettingItem(
+                        title = stringResource(R.string.high_latitude_rule),
+                        subtitle = when (uiState.selectedHighLatitudeRule) {
+                            HighLatitudeRule.ANGLE_BASED -> stringResource(R.string.high_lat_angle)
+                            HighLatitudeRule.MIDDLE_OF_NIGHT -> stringResource(R.string.high_lat_midnight)
+                            HighLatitudeRule.ONE_SEVENTH -> stringResource(R.string.high_lat_seventh)
+                            HighLatitudeRule.NONE -> stringResource(R.string.high_lat_none)
+                        },
+                        onClick = { showHighLatDialog = true }
                     )
                 }
-
-                item {
-                    M3Card(shape = RoundedCornerShape(20.dp)) {
-                        // Method Selector
-                        SettingItem(
-                            title = stringResource(R.string.calc_method),
-                            subtitle = uiState.selectedMethod.title,
-                            onClick = { showMethodDialog = true }
-                        )
-                        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-
-                        // Asr Juristic Selector
-                        SettingItem(
-                            title = stringResource(R.string.asr_method),
-                            subtitle = if (uiState.selectedAsrMethod == AsrJuristicMethod.HANAFI)
-                                stringResource(R.string.asr_hanafi)
-                            else
-                                stringResource(R.string.asr_standard),
-                            onClick = { showAsrDialog = true }
-                        )
-                        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-
-                        // High Latitude Rule
-                        SettingItem(
-                            title = stringResource(R.string.high_latitude_rule),
-                            subtitle = when (uiState.selectedHighLatitudeRule) {
-                                HighLatitudeRule.ANGLE_BASED -> stringResource(R.string.high_lat_angle)
-                                HighLatitudeRule.MIDDLE_OF_NIGHT -> stringResource(R.string.high_lat_midnight)
-                                HighLatitudeRule.ONE_SEVENTH -> stringResource(R.string.high_lat_seventh)
-                                HighLatitudeRule.NONE -> stringResource(R.string.high_lat_none)
-                            },
-                            onClick = { showHighLatDialog = true }
-                        )
-                    }
-                }
+            }
 
                 // Notifications & Pre-Adhan Section
                 item {
@@ -364,7 +373,6 @@ fun SettingsScreen(
                 }
             }
         }
-    }
 
     // Language Dialog
     if (showLanguageDialog) {
@@ -588,7 +596,7 @@ private fun SettingItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(16.dp),
+            .padding(horizontal = 16.dp, vertical = 14.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -598,6 +606,7 @@ private fun SettingItem(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
+            Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.bodySmall,

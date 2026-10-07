@@ -6,8 +6,9 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Explore
@@ -30,12 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nurpray.app.R
 import com.nurpray.app.core.designsystem.AmberGold
-import com.nurpray.app.core.designsystem.EmeraldDeep
 import com.nurpray.app.core.designsystem.EmeraldLight
-import com.nurpray.app.core.designsystem.M3Background
 import com.nurpray.app.core.designsystem.M3Card
 import kotlin.math.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QiblaScreen(
     viewModel: QiblaViewModel,
@@ -73,29 +73,43 @@ fun QiblaScreen(
         label = "alignedColor"
     )
 
-    M3Background(modifier = modifier) {
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = {
+            TopAppBar(
+                title = {
+                    Column {
+                        Text(
+                            text = stringResource(R.string.qibla_compass),
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        if (uiState.cityName.isNotBlank()) {
+                            Text(
+                                text = uiState.cityName,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground
+                )
+            )
+        },
+        modifier = modifier
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Header
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = stringResource(R.string.qibla_compass),
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Text(
-                    text = uiState.cityName,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-
             // Low accuracy warning
             if (uiState.sensorAccuracy <= SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
                 Card(
@@ -103,7 +117,7 @@ fun QiblaScreen(
                         containerColor = MaterialTheme.colorScheme.errorContainer
                     ),
                     shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
                         modifier = Modifier.padding(12.dp),
@@ -124,11 +138,11 @@ fun QiblaScreen(
                 }
             }
 
-            // Compass Dial
+            // Compass Dial (responsive 260dp)
             Box(
                 modifier = Modifier
-                    .size(290.dp)
-                    .padding(16.dp),
+                    .size(260.dp)
+                    .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Canvas(modifier = Modifier.fillMaxSize()) {
@@ -137,7 +151,7 @@ fun QiblaScreen(
 
                     // Dial Outer Ring
                     drawCircle(
-                        color = Color.Gray.copy(alpha = 0.2f),
+                        color = Color.Gray.copy(alpha = 0.25f),
                         radius = radius,
                         center = center,
                         style = Stroke(width = 2.dp.toPx())
@@ -168,8 +182,8 @@ fun QiblaScreen(
                         // Cardinal North Pointer
                         val northPath = Path().apply {
                             moveTo(center.x, center.y - radius + 20.dp.toPx())
-                            lineTo(center.x - 7.dp.toPx(), center.y - radius + 40.dp.toPx())
-                            lineTo(center.x + 7.dp.toPx(), center.y - radius + 40.dp.toPx())
+                            lineTo(center.x - 7.dp.toPx(), center.y - radius + 38.dp.toPx())
+                            lineTo(center.x + 7.dp.toPx(), center.y - radius + 38.dp.toPx())
                             close()
                         }
                         drawPath(path = northPath, color = Color(0xFFE53935))
@@ -194,7 +208,7 @@ fun QiblaScreen(
                         drawPath(path = tailPath, color = Color.Gray.copy(alpha = 0.3f))
                     }
 
-                    // Center Kaaba Emblem
+                    // Center Kaaba Emblem Ring
                     drawCircle(
                         color = activeColor,
                         radius = 24.dp.toPx(),
@@ -221,7 +235,8 @@ fun QiblaScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
                 isHighlighted = uiState.bearing.isAligned,
-                highlightColor = EmeraldLight
+                highlightColor = EmeraldLight,
+                contentPadding = PaddingValues(16.dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -262,17 +277,17 @@ fun QiblaScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
                 // Alignment Banner
                 Surface(
-                    color = if (uiState.bearing.isAligned) EmeraldLight.copy(alpha = 0.22f)
-                    else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    color = if (uiState.bearing.isAligned) EmeraldLight.copy(alpha = 0.18f)
+                    else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
-                        modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp),
+                        modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
@@ -296,6 +311,8 @@ fun QiblaScreen(
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

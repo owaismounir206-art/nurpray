@@ -6,6 +6,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -13,44 +14,54 @@ import androidx.core.view.WindowCompat
 
 private val LightColorScheme = lightColorScheme(
     primary = EmeraldDeep,
-    onPrimary = androidx.compose.ui.graphics.Color.White,
-    primaryContainer = EmeraldContainer,
-    onPrimaryContainer = OnEmeraldContainer,
+    onPrimary = Color.White,
+    primaryContainer = EmeraldContainerLight,
+    onPrimaryContainer = OnEmeraldContainerLight,
     secondary = AmberGold,
-    onSecondary = androidx.compose.ui.graphics.Color.Black,
+    onSecondary = Color.White,
     secondaryContainer = AmberLight,
-    onSecondaryContainer = OnAmberContainer,
+    onSecondaryContainer = OnAmberContainerLight,
     background = SurfaceLight,
+    onBackground = Color(0xFF191C1A),
     surface = SurfaceLight,
-    surfaceContainerLowest = androidx.compose.ui.graphics.Color.White,
+    onSurface = Color(0xFF191C1A),
+    surfaceVariant = SurfaceVariantLight,
+    onSurfaceVariant = OnSurfaceVariantLight,
+    surfaceContainerLowest = SurfaceContainerLowestLight,
     surfaceContainerLow = SurfaceContainerLowLight,
     surfaceContainer = SurfaceContainerLight,
     surfaceContainerHigh = SurfaceContainerHighLight,
-    onSurface = androidx.compose.ui.graphics.Color(0xFF1C1B1F)
+    outline = OutlineLight,
+    outlineVariant = OutlineVariantLight
 )
 
 private val DarkColorScheme = darkColorScheme(
     primary = EmeraldNight,
-    onPrimary = androidx.compose.ui.graphics.Color(0xFF00391C),
+    onPrimary = Color(0xFF003820),
     primaryContainer = EmeraldDarkContainer,
-    onPrimaryContainer = EmeraldNight,
+    onPrimaryContainer = OnEmeraldDarkContainer,
     secondary = AmberDark,
-    onSecondary = androidx.compose.ui.graphics.Color(0xFF432C00),
-    secondaryContainer = OnAmberContainer,
-    onSecondaryContainer = AmberDark,
+    onSecondary = Color(0xFF432C00),
+    secondaryContainer = AmberDarkContainer,
+    onSecondaryContainer = OnAmberDarkContainer,
     background = SurfaceDark,
+    onBackground = Color(0xFFE1E5E1),
     surface = SurfaceDark,
-    surfaceContainerLowest = androidx.compose.ui.graphics.Color(0xFF0C0E0D),
+    onSurface = Color(0xFFE1E5E1),
+    surfaceVariant = SurfaceVariantDark,
+    onSurfaceVariant = OnSurfaceVariantDark,
+    surfaceContainerLowest = SurfaceContainerLowestDark,
     surfaceContainerLow = SurfaceContainerLowDark,
     surfaceContainer = SurfaceContainerDark,
     surfaceContainerHigh = SurfaceContainerHighDark,
-    onSurface = androidx.compose.ui.graphics.Color(0xFFE2E3DF)
+    outline = OutlineDark,
+    outlineVariant = OutlineVariantDark
 )
 
 @Composable
 fun NurPrayTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false, // Keep signature Islamic Emerald/Gold brand identity consistent
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

@@ -23,6 +23,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nurpray.app.R
@@ -51,7 +52,7 @@ fun HomeScreen(
     val isGpsLoading by viewModel.isGpsLoading.collectAsState()
 
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = {
@@ -99,20 +100,23 @@ fun HomeScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground
                 )
             )
         },
         modifier = modifier
     ) { innerPadding ->
-        M3Background {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
-            ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                top = innerPadding.calculateTopPadding() + 4.dp,
+                bottom = innerPadding.calculateBottomPadding() + 20.dp,
+                start = 16.dp,
+                end = 16.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
                 // Hijri Date and Islamic Holy Events Banner
                 item {
                     val hijriDate = remember(schedule?.date) {
@@ -231,7 +235,6 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
-        }
 
         if (showCityPicker) {
             CityPickerSheet(
@@ -260,17 +263,18 @@ fun HeroCountdownCard(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
         isHighlighted = true,
-        highlightColor = MaterialTheme.colorScheme.primary
+        highlightColor = MaterialTheme.colorScheme.primary,
+        contentPadding = PaddingValues(16.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(210.dp),
+                .height(200.dp),
             contentAlignment = Alignment.Center
         ) {
             M3ProgressArc(
                 progress = schedule.progressRatio,
-                sizeDp = 190.dp,
+                sizeDp = 180.dp,
                 trackColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
                 progressColor = MaterialTheme.colorScheme.primary
             )
@@ -287,7 +291,7 @@ fun HeroCountdownCard(
                 ) {
                     Text(
                         text = "${stringResource(R.string.next_label)} • ${stringResource(schedule.nextPrayer.type.nameResId)}",
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
@@ -298,14 +302,19 @@ fun HeroCountdownCard(
 
                 Text(
                     text = countdown,
-                    style = MaterialTheme.typography.displayMedium,
+                    fontSize = 32.sp,
+                    lineHeight = 36.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    textAlign = TextAlign.Center
                 )
+
+                Spacer(modifier = Modifier.height(2.dp))
 
                 Text(
                     text = stringResource(R.string.starts_at, schedule.nextPrayer.formattedTime),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.Medium
                 )
@@ -346,12 +355,11 @@ fun FastingTrackerCard(
             modifier = modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
             isHighlighted = isFastingNow,
-            highlightColor = AmberGold
+            highlightColor = AmberGold,
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 4.dp, vertical = 2.dp),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -453,14 +461,13 @@ fun PrayerTimeCard(
 
     M3Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(16.dp),
         isHighlighted = isCurrent || isNext,
-        highlightColor = highlightColor
+        highlightColor = highlightColor,
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 6.dp, vertical = 4.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -496,7 +503,7 @@ fun PrayerTimeCard(
                                 color = EmeraldLight.copy(alpha = 0.18f)
                             ) {
                                 Text(
-                                    text = "NOW",
+                                    text = stringResource(R.string.current_prayer),
                                     style = MaterialTheme.typography.labelSmall,
                                     fontWeight = FontWeight.Bold,
                                     color = EmeraldLight,

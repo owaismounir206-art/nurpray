@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,34 +53,40 @@ fun M3Card(
     shape: RoundedCornerShape = RoundedCornerShape(20.dp),
     isHighlighted: Boolean = false,
     highlightColor: Color = MaterialTheme.colorScheme.primary,
+    containerColor: Color? = null,
+    border: BorderStroke? = null,
+    elevation: Dp? = null,
+    contentPadding: PaddingValues = PaddingValues(16.dp),
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val containerColor = if (isHighlighted) {
+    val actualContainerColor = containerColor ?: if (isHighlighted) {
         MaterialTheme.colorScheme.surfaceContainerHigh
     } else {
         MaterialTheme.colorScheme.surfaceContainer
     }
 
-    val border = if (isHighlighted) {
+    val actualBorder = border ?: if (isHighlighted) {
         BorderStroke(1.5.dp, highlightColor)
     } else {
-        BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
+        BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
     }
+
+    val actualElevation = elevation ?: if (isHighlighted) 2.dp else 0.dp
 
     Card(
         modifier = modifier.then(
             if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier
         ),
         shape = shape,
-        colors = CardDefaults.cardColors(containerColor = containerColor),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = if (isHighlighted) 3.dp else 1.dp
-        ),
-        border = border
+        colors = CardDefaults.cardColors(containerColor = actualContainerColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = actualElevation),
+        border = actualBorder
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(contentPadding)
         ) {
             content()
         }
@@ -96,32 +103,32 @@ fun M3QuickActionButton(
 ) {
     Card(
         modifier = modifier
-            .height(76.dp)
+            .height(78.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 8.dp, horizontal = 4.dp),
+                .padding(vertical = 8.dp, horizontal = 2.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Surface(
                 shape = CircleShape,
-                color = accentColor.copy(alpha = 0.14f),
-                modifier = Modifier.size(36.dp)
+                color = accentColor.copy(alpha = 0.16f),
+                modifier = Modifier.size(34.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = icon,
                         contentDescription = title,
-                        modifier = Modifier.size(20.dp),
+                        modifier = Modifier.size(19.dp),
                         tint = accentColor
                     )
                 }
@@ -131,10 +138,16 @@ fun M3QuickActionButton(
 
             Text(
                 text = title,
-                style = MaterialTheme.typography.labelMedium,
+                fontSize = 11.sp,
+                lineHeight = 13.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 2.dp)
             )
         }
     }
