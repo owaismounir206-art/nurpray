@@ -2,7 +2,6 @@ package com.nurpray.app.core.designsystem
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
- * Native Material Design 3 (Material You) Design System
- * 100% native, battery-efficient, accessible, clean elevation and surface containers.
+ * Clean, lightweight Material Design 3 Design System.
+ * Pure native components, optimal battery life, accessible, and clutter-free.
  */
 
 @Composable
@@ -50,29 +49,20 @@ fun M3Background(
 @Composable
 fun M3Card(
     modifier: Modifier = Modifier,
-    shape: RoundedCornerShape = RoundedCornerShape(20.dp),
+    shape: RoundedCornerShape = RoundedCornerShape(18.dp),
     isHighlighted: Boolean = false,
     highlightColor: Color = MaterialTheme.colorScheme.primary,
     containerColor: Color? = null,
-    border: BorderStroke? = null,
-    elevation: Dp? = null,
+    elevation: Dp = 0.dp,
     contentPadding: PaddingValues = PaddingValues(16.dp),
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val actualContainerColor = containerColor ?: if (isHighlighted) {
-        MaterialTheme.colorScheme.surfaceContainerHigh
+        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f)
     } else {
         MaterialTheme.colorScheme.surfaceContainer
     }
-
-    val actualBorder = border ?: if (isHighlighted) {
-        BorderStroke(1.5.dp, highlightColor)
-    } else {
-        BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
-    }
-
-    val actualElevation = elevation ?: if (isHighlighted) 2.dp else 0.dp
 
     Card(
         modifier = modifier.then(
@@ -80,8 +70,7 @@ fun M3Card(
         ),
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = actualContainerColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = actualElevation),
-        border = actualBorder
+        elevation = CardDefaults.cardElevation(defaultElevation = elevation)
     ) {
         Column(
             modifier = Modifier
@@ -101,16 +90,11 @@ fun M3QuickActionButton(
     modifier: Modifier = Modifier,
     accentColor: Color = MaterialTheme.colorScheme.primary
 ) {
-    Card(
-        modifier = modifier
-            .height(78.dp)
-            .clickable(onClick = onClick),
+    Surface(
+        onClick = onClick,
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
+        color = MaterialTheme.colorScheme.surfaceContainer,
+        modifier = modifier.height(74.dp)
     ) {
         Column(
             modifier = Modifier
@@ -121,7 +105,7 @@ fun M3QuickActionButton(
         ) {
             Surface(
                 shape = CircleShape,
-                color = accentColor.copy(alpha = 0.16f),
+                color = accentColor.copy(alpha = 0.15f),
                 modifier = Modifier.size(34.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
@@ -158,12 +142,12 @@ fun M3ProgressArc(
     progress: Float,
     modifier: Modifier = Modifier,
     sizeDp: Dp = 200.dp,
-    trackColor: Color = MaterialTheme.colorScheme.surfaceVariant,
-    progressColor: Color = MaterialTheme.colorScheme.primary
+    trackColor: Color = Color.White.copy(alpha = 0.2f),
+    progressColor: Color = AmberGold
 ) {
     val animatedProgress by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
-        animationSpec = tween(durationMillis = 800),
+        animationSpec = tween(durationMillis = 600),
         label = "m3ArcProgress"
     )
 
@@ -171,7 +155,7 @@ fun M3ProgressArc(
         modifier = modifier.size(sizeDp),
         contentAlignment = Alignment.Center
     ) {
-        Canvas(modifier = Modifier.fillMaxSize().padding(12.dp)) {
+        Canvas(modifier = Modifier.fillMaxSize().padding(10.dp)) {
             val strokeWidthPx = 10.dp.toPx()
             val diameter = size.minDimension - strokeWidthPx
             val topLeft = Offset(
@@ -207,7 +191,7 @@ fun M3ProgressArc(
     }
 }
 
-// Aliases for backward-compatibility while eliminating all liquid glass effects
+// Aliases for backward-compatibility
 @Composable
 fun LiquidBackground(
     modifier: Modifier = Modifier,
@@ -218,7 +202,7 @@ fun LiquidBackground(
 @Composable
 fun LiquidGlassCard(
     modifier: Modifier = Modifier,
-    shape: RoundedCornerShape = RoundedCornerShape(20.dp),
+    shape: RoundedCornerShape = RoundedCornerShape(18.dp),
     isHighlighted: Boolean = false,
     highlightColor: Color = AmberGold,
     onClick: (() -> Unit)? = null,
@@ -258,5 +242,6 @@ fun LiquidProgressArc(
     progress = progress,
     modifier = modifier,
     sizeDp = sizeDp,
-    progressColor = liquidColors.firstOrNull() ?: MaterialTheme.colorScheme.primary
+    trackColor = if (trackColor == Color.Unspecified) Color.White.copy(alpha = 0.2f) else trackColor,
+    progressColor = liquidColors.firstOrNull() ?: AmberGold
 )

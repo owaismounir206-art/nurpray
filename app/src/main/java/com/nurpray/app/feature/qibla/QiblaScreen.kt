@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import com.nurpray.app.R
 import com.nurpray.app.core.designsystem.AmberGold
 import com.nurpray.app.core.designsystem.EmeraldLight
-import com.nurpray.app.core.designsystem.M3Card
 import kotlin.math.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -231,13 +230,15 @@ fun QiblaScreen(
             }
 
             // Info Card (Azimuth, Alignment, Distance)
-            M3Card(
+            Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                isHighlighted = uiState.bearing.isAligned,
-                highlightColor = EmeraldLight,
-                contentPadding = PaddingValues(16.dp)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
             ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
@@ -311,8 +312,9 @@ fun QiblaScreen(
                     }
                 }
             }
+        }
 
-            Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

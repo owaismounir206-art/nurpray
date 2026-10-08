@@ -27,9 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nurpray.app.R
-import com.nurpray.app.core.designsystem.AmberGold
 import com.nurpray.app.core.designsystem.EmeraldLight
-import com.nurpray.app.core.designsystem.M3Card
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -110,13 +108,15 @@ fun TasbihScreen(
             }
 
             // Dhikr Calligraphy & Meaning Card
-            M3Card(
+            Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                contentPadding = PaddingValues(16.dp)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -146,14 +146,12 @@ fun TasbihScreen(
             // Large Material Counter Card
             val primaryColor = MaterialTheme.colorScheme.primary
             val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
-            M3Card(
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(260.dp),
-                shape = RoundedCornerShape(28.dp),
-                isHighlighted = true,
-                highlightColor = EmeraldLight,
-                contentPadding = PaddingValues(16.dp),
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
                 onClick = {
                     val reached = viewModel.incrementCount()
                     if (reached) {

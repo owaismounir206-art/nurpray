@@ -18,8 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.nurpray.app.R
 import com.nurpray.app.core.designsystem.AmberGold
 import com.nurpray.app.core.designsystem.EmeraldLight
-import com.nurpray.app.core.designsystem.M3Background
-import com.nurpray.app.core.designsystem.M3Card
 import com.nurpray.app.data.astronomical.AsrJuristicMethod
 import com.nurpray.app.data.astronomical.HighLatitudeRule
 import com.nurpray.app.data.astronomical.PrayerMethod
@@ -83,9 +81,9 @@ fun SettingsScreen(
             }
 
             item {
-                M3Card(
+                Card(
                     shape = RoundedCornerShape(18.dp),
-                    contentPadding = PaddingValues(0.dp)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
                 ) {
                     val currentLangCode by viewModel.currentLanguage.collectAsState()
                     val currentLang = APP_SUPPORTED_LANGUAGES.find { it.code == currentLangCode }
@@ -110,40 +108,42 @@ fun SettingsScreen(
             }
 
             item {
-                M3Card(
+                Card(
                     shape = RoundedCornerShape(18.dp),
-                    contentPadding = PaddingValues(0.dp)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
                 ) {
-                    // Method Selector
-                    SettingItem(
-                        title = stringResource(R.string.calc_method),
-                        subtitle = uiState.selectedMethod.title,
-                        onClick = { showMethodDialog = true }
-                    )
-                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        // Method Selector
+                        SettingItem(
+                            title = stringResource(R.string.calc_method),
+                            subtitle = uiState.selectedMethod.title,
+                            onClick = { showMethodDialog = true }
+                        )
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
 
-                    // Asr Juristic Selector
-                    SettingItem(
-                        title = stringResource(R.string.asr_method),
-                        subtitle = if (uiState.selectedAsrMethod == AsrJuristicMethod.HANAFI)
-                            stringResource(R.string.asr_hanafi)
-                        else
-                            stringResource(R.string.asr_standard),
-                        onClick = { showAsrDialog = true }
-                    )
-                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                        // Asr Juristic Selector
+                        SettingItem(
+                            title = stringResource(R.string.asr_method),
+                            subtitle = if (uiState.selectedAsrMethod == AsrJuristicMethod.HANAFI)
+                                stringResource(R.string.asr_hanafi)
+                            else
+                                stringResource(R.string.asr_standard),
+                            onClick = { showAsrDialog = true }
+                        )
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
 
-                    // High Latitude Rule
-                    SettingItem(
-                        title = stringResource(R.string.high_latitude_rule),
-                        subtitle = when (uiState.selectedHighLatitudeRule) {
-                            HighLatitudeRule.ANGLE_BASED -> stringResource(R.string.high_lat_angle)
-                            HighLatitudeRule.MIDDLE_OF_NIGHT -> stringResource(R.string.high_lat_midnight)
-                            HighLatitudeRule.ONE_SEVENTH -> stringResource(R.string.high_lat_seventh)
-                            HighLatitudeRule.NONE -> stringResource(R.string.high_lat_none)
-                        },
-                        onClick = { showHighLatDialog = true }
-                    )
+                        // High Latitude Rule
+                        SettingItem(
+                            title = stringResource(R.string.high_latitude_rule),
+                            subtitle = when (uiState.selectedHighLatitudeRule) {
+                                HighLatitudeRule.ANGLE_BASED -> stringResource(R.string.high_lat_angle)
+                                HighLatitudeRule.MIDDLE_OF_NIGHT -> stringResource(R.string.high_lat_midnight)
+                                HighLatitudeRule.ONE_SEVENTH -> stringResource(R.string.high_lat_seventh)
+                                HighLatitudeRule.NONE -> stringResource(R.string.high_lat_none)
+                            },
+                            onClick = { showHighLatDialog = true }
+                        )
+                    }
                 }
             }
 
@@ -158,8 +158,11 @@ fun SettingsScreen(
                 }
 
                 item {
-                    M3Card(shape = RoundedCornerShape(20.dp)) {
-                        Column(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+                    Card(
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
+                    ) {
+                        Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -222,12 +225,11 @@ fun SettingsScreen(
                     val context = androidx.compose.ui.platform.LocalContext.current
                     val updateState by viewModel.updateState.collectAsState()
 
-                    M3Card(
-                        shape = RoundedCornerShape(20.dp),
-                        isHighlighted = updateState is UpdateUiState.Available,
-                        highlightColor = AmberGold
+                    Card(
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
                     ) {
-                        Column(modifier = Modifier.padding(4.dp)) {
+                        Column(modifier = Modifier.padding(16.dp)) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -348,8 +350,11 @@ fun SettingsScreen(
 
                 // About & Zero Trackers Banner
                 item {
-                    M3Card(shape = RoundedCornerShape(20.dp)) {
-                        Column(modifier = Modifier.padding(4.dp)) {
+                    Card(
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
                             Text(
                                 text = stringResource(R.string.about_section),
                                 style = MaterialTheme.typography.titleMedium,

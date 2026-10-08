@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import com.nurpray.app.R
 import com.nurpray.app.core.designsystem.AmberGold
 import com.nurpray.app.core.designsystem.EmeraldLight
-import com.nurpray.app.core.designsystem.M3Card
 import com.nurpray.app.data.repository.DuaRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -133,14 +132,16 @@ fun DuaScreen(
                 val currentCount = counts.getOrDefault(dua.id, 0)
                 val isCompleted = currentCount >= dua.targetCount
 
-                M3Card(
+                Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(18.dp),
-                    isHighlighted = isCompleted,
-                    highlightColor = EmeraldLight,
-                    contentPadding = PaddingValues(16.dp)
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (isCompleted) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f)
+                        else MaterialTheme.colorScheme.surfaceContainer
+                    )
                 ) {
-                    // Title and Category Tag
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        // Title and Category Tag
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -264,6 +265,7 @@ fun DuaScreen(
                             }
                         }
                     }
+                }
                 }
             }
         }

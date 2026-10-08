@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import com.nurpray.app.R
 import com.nurpray.app.core.designsystem.AmberGold
 import com.nurpray.app.core.designsystem.EmeraldLight
-import com.nurpray.app.core.designsystem.M3Card
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,13 +97,15 @@ fun QuranScreen(
                 }
 
                 items(filteredSurahs, key = { it.number }) { surah ->
-                    M3Card(
+                    Card(
                         onClick = { viewModel.selectSurah(surah) },
                         shape = RoundedCornerShape(16.dp),
-                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 10.dp)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 12.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
@@ -164,12 +165,13 @@ fun QuranScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(uiState.ayahs, key = { it.numberInSurah }) { ayah ->
-                    M3Card(
+                    Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(18.dp),
-                        contentPadding = PaddingValues(16.dp)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
                     ) {
-                        Row(
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
@@ -214,6 +216,7 @@ fun QuranScreen(
                         )
                     }
                 }
+            }
             }
         }
     }

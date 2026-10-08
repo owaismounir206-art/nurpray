@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                         AppDestination.QIBLA,
                         AppDestination.QURAN,
                         AppDestination.TASBIH,
-                        AppDestination.DUA
+                        AppDestination.SETTINGS
                     )
                 }
 

@@ -1,8 +1,8 @@
 package com.nurpray.app.feature.home
 
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,12 +18,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nurpray.app.R
@@ -45,6 +50,16 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
     val schedule = uiState.schedule
     val haptic = LocalHapticFeedback.current
+
+    // Ambient gradient based on active prayer
+    val activeGradient = when (uiState.activePrayerType) {
+        PrayerType.FAJR -> FajrSkyGradient
+        PrayerType.SUNRISE -> SunriseSkyGradient
+        PrayerType.DHUHR -> DhuhrSkyGradient
+        PrayerType.ASR -> AsrSkyGradient
+        PrayerType.MAGHRIB -> MaghribSkyGradient
+        PrayerType.ISHA -> IshaSkyGradient
+    }
 
     var showCityPicker by remember { mutableStateOf(false) }
     val citiesList by viewModel.citiesList.collectAsState()
@@ -115,19 +130,21 @@ fun HomeScreen(
                 start = 16.dp,
                 end = 16.dp
             ),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-                // Hijri Date and Islamic Holy Events Banner
-                item {
-                    val hijriDate = remember(schedule?.date) {
-                        schedule?.date?.let { com.nurpray.app.data.astronomical.HijriCalendarHelper.gregorianToHijri(it) }
-                    }
+            // Hijri Date and Islamic Events Banner
+            item {
+                val hijriDate = remember(schedule?.date) {
+                    schedule?.date?.let { com.nurpray.app.data.astronomical.HijriCalendarHelper.gregorianToHijri(it) }
+                }
 
-                    hijriDate?.let { hDate ->
-                        M3Card(
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(18.dp)
-                        ) {
+                hijriDate?.let { hDate ->
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
+                    ) {
+                        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -168,73 +185,75 @@ fun HomeScreen(
                         }
                     }
                 }
+            }
 
-                // Fasting Tracker Card (Imsak & Iftar)
-                item {
-                    schedule?.let { sched ->
-                        FastingTrackerCard(schedule = sched)
-                    }
-                }
-
-                // Hero Prayer Card with Countdown & Progress Arc
-                item {
-                    schedule?.let { sched ->
-                        HeroCountdownCard(
-                            schedule = sched,
-                            countdown = uiState.formattedCountdown
-                        )
-                    }
-                }
-
-                // Quick Actions Bar
-                item {
-                    QuickActionsRow(
-                        onQiblaClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            onNavigateToQibla()
-                        },
-                        onTasbihClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            onNavigateToTasbih()
-                        },
-                        onQuranClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            onNavigateToQuran()
-                        },
-                        onDuaClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            onNavigateToDua()
-                        }
-                    )
-                }
-
-                // Section Header
-                item {
-                    Text(
-                        text = stringResource(R.string.today_prayer_times),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-
-                // Today's 6 Prayer Cards
-                schedule?.prayers?.let { prayers ->
-                    items(prayers) { prayer ->
-                        val isCurrent = prayer.type == schedule.currentPrayer?.type
-                        val isNext = prayer.type == schedule.nextPrayer.type
-                        PrayerTimeCard(
-                            prayer = prayer,
-                            isCurrent = isCurrent,
-                            isNext = isNext
-                        )
-                    }
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
+            // Fasting Tracker Card (Suhoor / Iftar)
+            item {
+                schedule?.let { sched ->
+                    FastingTrackerCard(schedule = sched)
                 }
             }
+
+            // Hero Prayer Card with Ambient Sky Gradient, Progress Arc & Countdown
+            item {
+                schedule?.let { sched ->
+                    HeroCountdownCard(
+                        schedule = sched,
+                        countdown = uiState.formattedCountdown,
+                        gradient = activeGradient
+                    )
+                }
+            }
+
+            // Quick Actions Bar (Qibla, Tasbih, Corano, Du'a)
+            item {
+                QuickActionsRow(
+                    onQiblaClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onNavigateToQibla()
+                    },
+                    onTasbihClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onNavigateToTasbih()
+                    },
+                    onQuranClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onNavigateToQuran()
+                    },
+                    onDuaClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onNavigateToDua()
+                    }
+                )
+            }
+
+            // Section Header
+            item {
+                Text(
+                    text = stringResource(R.string.today_prayer_times),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
+
+            // Today's 6 Prayer Cards
+            schedule?.prayers?.let { prayers ->
+                items(prayers) { prayer ->
+                    val isCurrent = prayer.type == schedule.currentPrayer?.type
+                    val isNext = prayer.type == schedule.nextPrayer.type
+                    PrayerTimeCard(
+                        prayer = prayer,
+                        isCurrent = isCurrent,
+                        isNext = isNext
+                    )
+                }
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
 
         if (showCityPicker) {
             CityPickerSheet(
@@ -257,66 +276,84 @@ fun HomeScreen(
 fun HeroCountdownCard(
     schedule: com.nurpray.app.domain.model.TodayPrayerSchedule,
     countdown: String,
+    gradient: List<Color>,
     modifier: Modifier = Modifier
 ) {
-    M3Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        isHighlighted = true,
-        highlightColor = MaterialTheme.colorScheme.primary,
-        contentPadding = PaddingValues(16.dp)
+    val animatedProgress by animateFloatAsState(
+        targetValue = schedule.progressRatio,
+        animationSpec = tween(durationMillis = 600),
+        label = "arcProgress"
+    )
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(230.dp),
+        shape = RoundedCornerShape(26.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
+                .fillMaxSize()
+                .background(Brush.linearGradient(gradient))
+                .padding(20.dp),
             contentAlignment = Alignment.Center
         ) {
-            M3ProgressArc(
-                progress = schedule.progressRatio,
-                sizeDp = 180.dp,
-                trackColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                progressColor = MaterialTheme.colorScheme.primary
-            )
+            // Background subtle circular arc
+            Canvas(modifier = Modifier.size(190.dp)) {
+                val strokeWidth = 10.dp.toPx()
+                val diameter = size.minDimension - strokeWidth
+                val topLeft = Offset((size.width - diameter) / 2, (size.height - diameter) / 2)
+                val arcSize = Size(diameter, diameter)
 
-            // Central Countdown Info
+                // Background track
+                drawArc(
+                    color = Color.White.copy(alpha = 0.2f),
+                    startAngle = 135f,
+                    sweepAngle = 270f,
+                    useCenter = false,
+                    topLeft = topLeft,
+                    size = arcSize,
+                    style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                )
+
+                // Animated Active Progress
+                if (animatedProgress > 0f) {
+                    drawArc(
+                        color = AmberGold,
+                        startAngle = 135f,
+                        sweepAngle = 270f * animatedProgress,
+                        useCenter = false,
+                        topLeft = topLeft,
+                        size = arcSize,
+                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                    )
+                }
+            }
+
+            // Central Content
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Surface(
-                    shape = RoundedCornerShape(12.dp),
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.4f))
-                ) {
-                    Text(
-                        text = "${stringResource(R.string.next_label)} • ${stringResource(schedule.nextPrayer.type.nameResId)}",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(6.dp))
-
+                Text(
+                    text = "${stringResource(R.string.next_label)}: ${stringResource(schedule.nextPrayer.type.nameResId)}",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Color.White.copy(alpha = 0.9f)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = countdown,
-                    fontSize = 32.sp,
-                    lineHeight = 36.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    textAlign = TextAlign.Center
+                    style = MaterialTheme.typography.displaySmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
                 )
-
                 Spacer(modifier = Modifier.height(2.dp))
-
                 Text(
                     text = stringResource(R.string.starts_at, schedule.nextPrayer.formattedTime),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Medium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = AmberGold,
+                    fontWeight = FontWeight.SemiBold
                 )
             }
         }
@@ -351,15 +388,15 @@ fun FastingTrackerCard(
             stringResource(R.string.fasting_completed_today)
         }
 
-        M3Card(
+        Card(
             modifier = modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(18.dp),
-            isHighlighted = isFastingNow,
-            highlightColor = AmberGold,
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -415,34 +452,68 @@ fun QuickActionsRow(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        M3QuickActionButton(
+        QuickActionButton(
             title = stringResource(R.string.nav_qibla),
             icon = Icons.Default.Explore,
             onClick = onQiblaClick,
-            modifier = Modifier.weight(1f),
-            accentColor = EmeraldLight
+            modifier = Modifier.weight(1f)
         )
-        M3QuickActionButton(
+        QuickActionButton(
             title = stringResource(R.string.nav_tasbih),
             icon = Icons.Default.Fingerprint,
             onClick = onTasbihClick,
-            modifier = Modifier.weight(1f),
-            accentColor = AmberGold
+            modifier = Modifier.weight(1f)
         )
-        M3QuickActionButton(
+        QuickActionButton(
             title = stringResource(R.string.nav_quran),
             icon = Icons.AutoMirrored.Filled.MenuBook,
             onClick = onQuranClick,
-            modifier = Modifier.weight(1f),
-            accentColor = Color(0xFF64B5F6)
+            modifier = Modifier.weight(1f)
         )
-        M3QuickActionButton(
+        QuickActionButton(
             title = stringResource(R.string.nav_dua),
             icon = Icons.Default.Favorite,
             onClick = onDuaClick,
-            modifier = Modifier.weight(1f),
-            accentColor = Color(0xFFE91E63)
+            modifier = Modifier.weight(1f)
         )
+    }
+}
+
+@Composable
+fun QuickActionButton(
+    title: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceContainer,
+        modifier = modifier.height(72.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 4.dp)
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = title,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = title,
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 
@@ -453,60 +524,58 @@ fun PrayerTimeCard(
     isNext: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val highlightColor = when {
-        isCurrent -> EmeraldLight
-        isNext -> AmberGold
-        else -> MaterialTheme.colorScheme.outlineVariant
+    val containerColor = when {
+        isCurrent -> MaterialTheme.colorScheme.primaryContainer
+        isNext -> MaterialTheme.colorScheme.secondaryContainer
+        else -> MaterialTheme.colorScheme.surfaceContainer
     }
 
-    M3Card(
+    val contentColor = when {
+        isCurrent -> MaterialTheme.colorScheme.onPrimaryContainer
+        isNext -> MaterialTheme.colorScheme.onSecondaryContainer
+        else -> MaterialTheme.colorScheme.onSurface
+    }
+
+    Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        isHighlighted = isCurrent || isNext,
-        highlightColor = highlightColor,
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+        colors = CardDefaults.cardColors(containerColor = containerColor)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 18.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // Status Indicator Orb
+                // Indicator Dot
                 Box(
                     modifier = Modifier
                         .size(10.dp)
                         .clip(CircleShape)
-                        .background(
-                            when {
-                                isCurrent -> EmeraldLight
-                                isNext -> AmberGold
-                                else -> MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                            }
-                        )
+                        .background(if (isCurrent || isNext) contentColor else contentColor.copy(alpha = 0.25f))
                 )
-
                 Spacer(modifier = Modifier.width(14.dp))
-
                 Column {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = stringResource(prayer.type.nameResId),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = if (isCurrent || isNext) FontWeight.Bold else FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = contentColor
                         )
                         if (isCurrent) {
                             Spacer(modifier = Modifier.width(8.dp))
                             Surface(
                                 shape = RoundedCornerShape(6.dp),
-                                color = EmeraldLight.copy(alpha = 0.18f)
+                                color = contentColor.copy(alpha = 0.15f)
                             ) {
                                 Text(
                                     text = stringResource(R.string.current_prayer),
                                     style = MaterialTheme.typography.labelSmall,
                                     fontWeight = FontWeight.Bold,
-                                    color = EmeraldLight,
+                                    color = contentColor,
                                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                                 )
                             }
@@ -515,7 +584,7 @@ fun PrayerTimeCard(
                     Text(
                         text = prayer.type.arabicName,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = contentColor.copy(alpha = 0.7f)
                     )
                 }
             }
@@ -524,7 +593,7 @@ fun PrayerTimeCard(
                 text = prayer.formattedTime,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
-                color = if (isCurrent) EmeraldLight else if (isNext) AmberGold else MaterialTheme.colorScheme.onSurface
+                color = contentColor
             )
         }
     }
